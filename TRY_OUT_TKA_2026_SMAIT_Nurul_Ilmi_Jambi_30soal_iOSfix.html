@@ -1,0 +1,2613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRY OUT TKA 2026 SMAIT Nurul Ilmi Jambi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1000px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .logo {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Form Biodata */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.05em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Soal */
+        .question-container {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .passage {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #764ba2;
+            font-style: italic;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .option.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-color: #667eea;
+        }
+
+        /* Timer */
+        .timer-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 100;
+        }
+
+        .timer-display {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .timer-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .timer-display.warning {
+            color: #ff9800;
+        }
+
+        .timer-display.critical {
+            color: #f44336;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.05em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results */
+        .result-container {
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 3em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 30px 0;
+        }
+
+        .score-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .score-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .score-box .value {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+
+
+
+
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .question-navigator {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .nav-button {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .nav-button:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .nav-button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .nav-button.answered {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .warning-message {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .export-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .export-btn.whatsapp {
+            background: #25d366;
+        }
+
+        .export-btn.whatsapp:hover {
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .student-info {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .student-info p {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .student-info strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .score-details {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .timer-container {
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            .question-navigator {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .timer-container,
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="position: absolute; top: 10px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.85em; color: white; font-weight: bold; border: 1px solid rgba(255,255,255,0.4);">
+                🔒 STRICT MODE AKTIF
+            </div>
+            <div class="logo">📝</div>
+            <h1>TRY OUT TKA 2026 SMAIT Nurul Ilmi Jambi</h1>
+            <p>Bahasa Indonesia Wajib</p>
+        </div>
+
+        <div class="timer-container" id="timerContainer">
+            <div class="timer-display" id="timerDisplay">75:00</div>
+            <div class="timer-label">Waktu Tersisa</div>
+        </div>
+
+        <div class="content">
+            <!-- Section 1: Form Biodata -->
+            <div class="section active" id="biodata-section">
+                <h2 style="margin-bottom: 30px; color: #333;">📋 Data Peserta</h2>
+                <div class="form-group">
+                    <label for="studentName">Nama Lengkap</label>
+                    <input type="text" id="studentName" placeholder="Masukkan nama lengkap Anda" autocomplete="name" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="studentClass">Kelas</label>
+                    <input type="text" id="studentClass" placeholder="Contoh: XII IPA 1">
+                </div>
+                <div class="warning-message">
+                    ⚠️ Data yang Anda masukkan akan tercatat dalam laporan hasil try out. Pastikan data sudah benar sebelum melanjutkan!
+                </div>
+                <div style="background:#eef3ff;border:1px solid #c7d3ff;border-radius:10px;padding:14px 16px;margin:0 0 16px;color:#334;line-height:1.7;font-size:.95em;">
+                    ℹ️ <strong>Aturan singkat:</strong><br>
+                    • 30 soal &bull; 75 menit &bull; hanya bisa dikerjakan <strong>satu kali</strong><br>
+                    • Jangan pindah tab/aplikasi. Ada <strong>3 kali peringatan</strong>; pelanggaran berikutnya = ujian otomatis selesai<br>
+                    • Jika waktu habis, ujian selesai dan nilai dikirim otomatis<br>
+                    • Soal mengacu pada kisi-kisi TKA Bahasa Indonesia (Perkaban BSKAP No. 045/H/AN/2025): teks informasi dan fiksi
+                </div>
+                <div id="startError" style="display:none;color:#c0392b;background:#fdecea;border-radius:8px;padding:10px 14px;margin-bottom:14px;"></div>
+                <div class="button-group">
+                    <button type="button" class="btn-primary" id="startBtn" onclick="startQuiz()">Mulai Try Out</button>
+                </div>
+            </div>
+
+            <!-- Section 2: Quiz -->
+            <div class="section" id="quiz-section">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <p style="text-align: right; margin-top: 8px; color: #666; font-size: 0.9em;">
+                        <span id="currentQuestion">1</span> / 30
+                    </p>
+                </div>
+
+                <div class="question-navigator" id="questionNavigator"></div>
+
+                <div id="questionsContainer"></div>
+
+                <div class="button-group">
+                    <button class="btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">← Sebelumnya</button>
+                    <button class="btn-primary" id="nextBtn" onclick="nextQuestion()">Selanjutnya →</button>
+                    <button class="btn-primary" id="submitBtn" onclick="submitQuiz()" style="display: none; background: #4caf50;">✓ Selesai & Submit</button>
+                </div>
+            </div>
+
+            <!-- Section 3: Results -->
+            <div class="section" id="results-section">
+                <div class="result-container">
+                    <h2 style="color: #333; margin-bottom: 20px;">🎉 Hasil Try Out Anda</h2>
+
+                    <!-- Status Deteksi Kecurangan -->
+                    <div id="cheatingDetectionStatus" style="background: #f0f8ff; border: 2px solid #3498db; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <h3 style="color: #3498db; margin-bottom: 15px; text-align: center;">🔒 Laporan Deteksi Kecurangan</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #3498db;">
+                                <p style="margin: 0; font-size: 0.9em; color: #666;">Pengalihan Tab/Window</p>
+                                <p style="margin: 5px 0 0 0; font-size: 1.3em; font-weight: bold; color: #3498db;" id="tabSwitchDisplay">0x</p>
+                            </div>
+                            <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #f39c12;">
+                                <p style="margin: 0; font-size: 0.9em; color: #666;">Perubahan Orientasi Device</p>
+                                <p style="margin: 5px 0 0 0; font-size: 1.3em; font-weight: bold; color: #f39c12;" id="orientationDisplay">0x</p>
+                            </div>
+                            <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+                                <p style="margin: 0; font-size: 0.9em; color: #666;">Perubahan Jaringan</p>
+                                <p style="margin: 5px 0 0 0; font-size: 1.3em; font-weight: bold; color: #e74c3c;" id="networkDisplay">0x</p>
+                            </div>
+                            <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #9b59b6;">
+                                <p style="margin: 0; font-size: 0.9em; color: #666;">Total Aktivitas Mencurigakan</p>
+                                <p style="margin: 5px 0 0 0; font-size: 1.3em; font-weight: bold; color: #9b59b6;" id="suspiciousActivityDisplay">0</p>
+                            </div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px; border: 2px solid #4caf50; text-align: center;">
+                            <p style="margin: 0; font-size: 0.95em; color: #666; font-weight: bold;">Status Ujian:</p>
+                            <p style="margin: 8px 0 0 0; font-size: 1.2em; color: #4caf50;" id="cheatingStatusDisplay">✅ Ujian Normal - Tidak Ada Kecurangan Terdeteksi</p>
+                        </div>
+                    </div>
+
+                    <!-- Status Pengiriman ke WhatsApp -->
+                    <div style="background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+                        <div style="font-size: 1.5em; margin-bottom: 8px;">✅ Pengiriman Sukses</div>
+                        <p style="margin: 0; font-size: 0.95em;">Hasil ujian telah otomatis dikirim ke WhatsApp</p>
+                        <p style="margin: 8px 0 0 0; font-size: 0.85em; opacity: 0.9;">📱 +62 852-6642-0910</p>
+                        <p style="margin: 8px 0 0 0; font-size: 0.8em; opacity: 0.8;">✓ Laporan deteksi kecurangan juga terkirim</p>
+                    </div>
+
+                    <div class="student-info">
+                        <p><strong>Nama:</strong> <span id="resultName"></span></p>
+                        <p><strong>Kelas:</strong> <span id="resultClass"></span></p>
+                        <p><strong>Tanggal:</strong> <span id="resultDate"></span></p>
+                    </div>
+
+                    <div class="score-display" id="scoreDisplay">200 / 800</div>
+
+                    <!-- Kategori Predikat -->
+                    <div id="predicateSection" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+                        <p style="margin: 0; font-size: 1.1em; opacity: 0.9;">Kategori Penilaian</p>
+                        <h2 style="margin: 15px 0 0 0; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);" id="predicateDisplay">MEMADAI</h2>
+                        <p style="margin: 10px 0 0 0; font-size: 0.95em; opacity: 0.9;" id="predicateRangeDisplay">481 - 640</p>
+                    </div>
+
+                    <!-- Score Breakdown by Level -->
+                    <div style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin-bottom: 30px;">
+                        <h3 style="color: #333; margin-bottom: 20px; text-align: center;">📊 Analisis Berdasarkan Level Kesulitan</h3>
+
+                        <!-- LOTS -->
+                        <div style="margin-bottom: 20px; padding: 15px; background: white; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="color: #3498db; margin-bottom: 8px;">📚 LOTS (Pemahaman Dasar)</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95em;">
+                                <strong>Jawaban Benar:</strong> <span id="lotsCorrect">0</span>/7 soal
+                            </p>
+                            <div style="background: #ecf0f1; height: 20px; border-radius: 10px; margin-top: 8px; overflow: hidden;">
+                                <div id="lotsBar" style="background: #3498db; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                            </div>
+                        </div>
+
+                        <!-- MOTS -->
+                        <div style="margin-bottom: 20px; padding: 15px; background: white; border-radius: 10px; border-left: 5px solid #f39c12;">
+                            <h4 style="color: #f39c12; margin-bottom: 8px;">🎓 MOTS (Analisis & Interpretasi)</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95em;">
+                                <strong>Jawaban Benar:</strong> <span id="motsCorrect">0</span>/10 soal
+                            </p>
+                            <div style="background: #ecf0f1; height: 20px; border-radius: 10px; margin-top: 8px; overflow: hidden;">
+                                <div id="motsBar" style="background: #f39c12; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                            </div>
+                        </div>
+
+                        <!-- HOTS -->
+                        <div style="padding: 15px; background: white; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                            <h4 style="color: #e74c3c; margin-bottom: 8px;">🔬 HOTS (Evaluasi & Sintesis)</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95em;">
+                                <strong>Jawaban Benar:</strong> <span id="hotsCorrect">0</span>/8 soal
+                            </p>
+                            <div style="background: #ecf0f1; height: 20px; border-radius: 10px; margin-top: 8px; overflow: hidden;">
+                                <div id="hotsBar" style="background: #e74c3c; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="score-details">
+                        <div class="score-box">
+                            <h3>✓ Total Jawaban Benar</h3>
+                            <div class="value" id="correctCount">0</div>
+                        </div>
+                        <div class="score-box">
+                            <h3>✗ Total Jawaban Salah</h3>
+                            <div class="value" id="wrongCount">0</div>
+                        </div>
+                    </div>
+
+                    <div class="export-options">
+                        <button class="export-btn" onclick="downloadPDF()">📥 Download PDF</button>
+                        <button class="export-btn whatsapp" onclick="shareWhatsApp()">💬 Kirim ke WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-content">
+                <div>
+                    <strong>📚 SMA IT NURUL ILMI JAMBI</strong>
+                </div>
+                <div class="footer-divider"></div>
+                <div>
+                    <strong>Penyusun Platform:</strong> DENI ELSA, S.Pd., GR.
+                </div>
+                <div>
+                    <strong>Kontak:</strong> WA: 085266420910
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ENAM TEKS UTAMA TKA BAHASA INDONESIA TINGKAT LANJUT 2025
+        const passages = {
+            text1: {
+                title: "Transformasi Digital dan E-Government",
+                content: "Transformasi digital telah mengubah cara masyarakat berinteraksi dengan layanan publik secara fundamental. Platform e-government memungkinkan warga negara mengakses berbagai layanan administrasi tanpa harus datang ke kantor pemerintah dengan antrian panjang. Akan tetapi, masih banyak kendala yang dihadapi dalam implementasinya, termasuk keterbatasan akses internet di daerah terpencil, kurangnya literasi digital di kalangan generasi tua, dan infrastruktur teknologi yang belum merata. Untuk mengatasi hambatan ini, pemerintah perlu melakukan sosialisasi yang lebih intensif, pelatihan berkelanjutan, dan meningkatkan infrastruktur teknologi informasi di seluruh wilayah Indonesia. Investasi dalam pengembangan SDM juga menjadi kunci sukses transformasi digital yang inklusif dan berkelanjutan."
+            },
+            text2: {
+                title: "Ekonomi Sirkular dan Kelestarian Lingkungan",
+                content: "Ekonomi sirkular adalah model ekonomi revolusioner yang dirancang untuk mengurangi limbah dan memaksimalkan penggunaan sumber daya dengan menerapkan prinsip 'reduce, reuse, recycle' secara menyeluruh. Model ini mengubah limbah yang sebelumnya dianggap sampah menjadi sumber daya berharga yang dapat digunakan kembali dalam proses produksi. Banyak perusahaan multinasional besar telah mengadopsi model ini, mulai dari desain produk ramah lingkungan hingga program take-back untuk produk lama yang sudah tidak terpakai. Transisi ke ekonomi sirkular tidak hanya memberikan manfaat lingkungan yang signifikan, tetapi juga membuka peluang bisnis baru, meningkatkan efisiensi operasional, dan menciptakan lapangan kerja hijau yang berkelanjutan untuk generasi mendatang."
+            },
+            text3: {
+                title: "Pariwisata Berkelanjutan dan Pemberdayaan Lokal",
+                content: "Pariwisata berkelanjutan adalah konsep strategis yang menggabungkan pengembangan pariwisata dengan pelestarian lingkungan alam dan keaslian budaya lokal secara seimbang dan berkelanjutan. Destinasi pariwisata yang dikelola dengan prinsip keberlanjutan dapat memberikan manfaat ekonomi yang berkelanjutan tanpa mengorbankan ekosistem fragile atau mengubah keaslian budaya masyarakat setempat secara drastis. Beberapa contoh implementasi pariwisata berkelanjutan di Indonesia antara lain ekowisata Komodo yang terkenal dunia, pariwisata budaya di Ubud Bali yang menarik jutaan pengunjung, dan pengembangan pariwisata pedesaan di berbagai daerah. Program-program ini menunjukkan bahwa pariwisata dapat menjadi alat pemberdayaan ekonomi lokal dan pelestarian warisan budaya sambil tetap menjaga kelestarian lingkungan yang menjadi daya tarik utama destinasi tersebut."
+            },
+            text4: {
+                title: "Literasi Finansial dan Kesejahteraan Ekonomi",
+                content: "Literasi finansial adalah kemampuan fundamental untuk memahami dan mengelola keuangan pribadi secara bijaksana, termasuk perencanaan, penganggaran, investasi, dan manajemen utang. Sayangnya, tingkat literasi finansial masyarakat Indonesia masih tergolong rendah, hanya mencapai 38 persen menurut data survei terbaru, jauh tertinggal dari negara-negara maju di Asia. Rendahnya pemahaman tentang produk finansial seperti asuransi, investasi, dan manajemen utang membuat masyarakat rentan terhadap penipuan finansial dan pengambilan keputusan ekonomi yang keliru. Program pendidikan finansial yang komprehensif di sekolah, institusi, dan masyarakat menjadi kunci untuk meningkatkan literasi finansial dan kesejahteraan ekonomi jangka panjang secara berkelanjutan dan terukur untuk semua lapisan masyarakat Indonesia."
+            },
+            text5: {
+                title: "Perubahan Iklim dan Mitigasi Dampak",
+                content: "Perubahan iklim global bukan sekadar isu lingkungan abstrak tetapi memiliki dampak signifikan pada ekonomi, kesejahteraan manusia, dan sistem ekosistem planet. Peningkatan suhu rata-rata bumi yang konsisten menyebabkan perubahan pola cuaca yang ekstrem dan tidak terduga, mengakibatkan gagal panen, berkurangnya sumber daya air tawar, naiknya permukaan air laut, dan meningkatnya frekuensi bencana alam. Negara-negara berkembang seperti Indonesia, yang ketergantungannya terhadap ekonomi sektor pertanian dan perikanan sangat tinggi, akan merasakan dampak paling parah dari perubahan iklim global. Oleh karena itu, adaptasi dan mitigasi perubahan iklim harus menjadi prioritas utama dalam setiap perencanaan pembangunan berkelanjutan, dengan investasi signifikan dalam teknologi hijau, pertanian resiliensi, dan infrastruktur adaptif."
+            },
+            text6: {
+                title: "Artificial Intelligence dalam Kesehatan dan Etika",
+                content: "Artificial Intelligence (AI) telah merevolusi berbagai aspek kehidupan manusia modern, dari industri manufaktur hingga layanan kesehatan yang semakin sophisticated dan presisi. Penggunaan AI dalam diagnosis medis telah meningkatkan akurasi deteksi penyakit kanker hingga 95 persen, mengungguli kemampuan dokter spesialis manusia dalam banyak kasus kritis. Meskipun demikian, adopsi teknologi AI yang masif juga menimbulkan kekhawatiran serius tentang pengangguran teknologi, privasi data yang terancam, dan etika penggunaan AI dalam pengambilan keputusan hidup-mati. Untuk memaksimalkan manfaat AI sekaligus meminimalkan risiko sosial dan etika, diperlukan regulasi yang komprehensif, standar etika yang jelas, dan pelatihan sumber daya manusia yang berkelanjutan di semua level organisasi."
+            }
+        };
+
+        // Data 30 Soal TKA Bahasa Indonesia Wajib 2025 (Berbasis 6 Teks)
+        const questionSet = [
+                {
+                    "id": 1,
+                    "type": "PG",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menyimpulkan ide pokok",
+                    "passageTitle": "Gambut, Penyimpan Karbon Raksasa",
+                    "passage": "Lahan gambut adalah tanah yang terbentuk dari timbunan sisa tumbuhan. Proses itu berlangsung ribuan tahun di daerah yang selalu tergenang air. Karena tergenang, sisa tumbuhan tidak terurai sempurna. Timbunan itulah yang kita sebut gambut. Lapisannya dapat setebal beberapa meter, bahkan lebih dari sepuluh meter di beberapa tempat.\n\nIndonesia memiliki sekitar dua puluh juta hektare lahan gambut. Sebagian besar berada di Sumatra, Kalimantan, dan Papua. Di Jambi, gambut terbentang luas di pesisir timur. Kawasan Taman Nasional Berbak menjadi rumah bagi harimau sumatra dan ratusan jenis burung. Kawasan ini juga menopang penghidupan warga sekitar melalui hasil hutan bukan kayu dan perikanan sungai.\n\nGambut berperan sebagai penyimpan karbon yang sangat besar. Satu hektare gambut dapat menyimpan karbon jauh lebih banyak daripada hutan di tanah mineral. Selama tetap basah, karbon itu terkunci aman di dalam tanah. Gambut juga bekerja seperti spons raksasa. Pada musim hujan, ia menyerap air berlebih sehingga banjir dapat ditekan. Pada musim kemarau, ia melepaskan air perlahan sehingga sungai tidak cepat kering.\n\nMasalah muncul ketika gambut dikeringkan lewat kanal untuk perkebunan. Gambut yang kering sangat mudah terbakar. Kanal yang terlalu banyak juga membuat permukaan tanah perlahan turun. Api bahkan dapat menjalar di bawah permukaan tanah. Kebakaran semacam itu sulit dipadamkan dan menghasilkan asap pekat berminggu-minggu. Akibatnya, karbon yang tersimpan lama terlepas ke udara dan mempercepat pemanasan global.\n\nKarena itu, pemulihan gambut dilakukan dengan membasahi kembali lahan yang kering. Caranya antara lain menyekat kanal agar air tertahan. Warga desa juga dilibatkan untuk menanam kembali tumbuhan asli rawa dan menjaga lahan. Upaya ini memerlukan waktu bertahun-tahun, tetapi hasilnya melindungi keselamatan banyak orang.",
+                    "question": "Gagasan pokok paragraf ketiga teks tersebut adalah ....",
+                    "options": [
+                        "Gambut hanya bermanfaat pada musim hujan.",
+                        "Hutan di tanah mineral menyimpan karbon lebih banyak daripada gambut.",
+                        "Gambut berperan menyimpan karbon dan mengatur persediaan air.",
+                        "Banjir selalu dapat dicegah dengan membangun kanal.",
+                        "Karbon di dalam gambut mudah terlepas ketika tanahnya basah."
+                    ],
+                    "correctAnswer": "C",
+                    "explanation": "Paragraf ketiga membahas dua peran gambut: penyimpan karbon dan pengatur air (seperti spons)."
+                },
+                {
+                    "id": 2,
+                    "type": "PG",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menyusun kerangka berdasarkan bagian penting teks",
+                    "passageTitle": "Gambut, Penyimpan Karbon Raksasa",
+                    "passage": "Lahan gambut adalah tanah yang terbentuk dari timbunan sisa tumbuhan. Proses itu berlangsung ribuan tahun di daerah yang selalu tergenang air. Karena tergenang, sisa tumbuhan tidak terurai sempurna. Timbunan itulah yang kita sebut gambut. Lapisannya dapat setebal beberapa meter, bahkan lebih dari sepuluh meter di beberapa tempat.\n\nIndonesia memiliki sekitar dua puluh juta hektare lahan gambut. Sebagian besar berada di Sumatra, Kalimantan, dan Papua. Di Jambi, gambut terbentang luas di pesisir timur. Kawasan Taman Nasional Berbak menjadi rumah bagi harimau sumatra dan ratusan jenis burung. Kawasan ini juga menopang penghidupan warga sekitar melalui hasil hutan bukan kayu dan perikanan sungai.\n\nGambut berperan sebagai penyimpan karbon yang sangat besar. Satu hektare gambut dapat menyimpan karbon jauh lebih banyak daripada hutan di tanah mineral. Selama tetap basah, karbon itu terkunci aman di dalam tanah. Gambut juga bekerja seperti spons raksasa. Pada musim hujan, ia menyerap air berlebih sehingga banjir dapat ditekan. Pada musim kemarau, ia melepaskan air perlahan sehingga sungai tidak cepat kering.\n\nMasalah muncul ketika gambut dikeringkan lewat kanal untuk perkebunan. Gambut yang kering sangat mudah terbakar. Kanal yang terlalu banyak juga membuat permukaan tanah perlahan turun. Api bahkan dapat menjalar di bawah permukaan tanah. Kebakaran semacam itu sulit dipadamkan dan menghasilkan asap pekat berminggu-minggu. Akibatnya, karbon yang tersimpan lama terlepas ke udara dan mempercepat pemanasan global.\n\nKarena itu, pemulihan gambut dilakukan dengan membasahi kembali lahan yang kering. Caranya antara lain menyekat kanal agar air tertahan. Warga desa juga dilibatkan untuk menanam kembali tumbuhan asli rawa dan menjaga lahan. Upaya ini memerlukan waktu bertahun-tahun, tetapi hasilnya melindungi keselamatan banyak orang.",
+                    "question": "Kerangka isi teks yang paling tepat adalah ....",
+                    "options": [
+                        "pengertian gambut – sebaran gambut – peran gambut – ancaman terhadap gambut – pemulihan gambut",
+                        "pengertian gambut – ancaman terhadap gambut – sebaran gambut – pemulihan gambut – peran gambut",
+                        "sebaran gambut – pengertian gambut – ancaman terhadap gambut – peran gambut – pemulihan gambut",
+                        "peran gambut – pengertian gambut – sebaran gambut – pemulihan gambut – ancaman terhadap gambut",
+                        "ancaman terhadap gambut – pengertian gambut – peran gambut – sebaran gambut – pemulihan gambut"
+                    ],
+                    "correctAnswer": "A",
+                    "explanation": "Urutan paragraf: pengertian (1), sebaran (2), peran (3), masalah/ancaman (4), pemulihan (5)."
+                },
+                {
+                    "id": 3,
+                    "type": "PG",
+                    "difficulty": "hard",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menjelaskan hubungan makna antarparagraf",
+                    "passageTitle": "Gambut, Penyimpan Karbon Raksasa",
+                    "passage": "Lahan gambut adalah tanah yang terbentuk dari timbunan sisa tumbuhan. Proses itu berlangsung ribuan tahun di daerah yang selalu tergenang air. Karena tergenang, sisa tumbuhan tidak terurai sempurna. Timbunan itulah yang kita sebut gambut. Lapisannya dapat setebal beberapa meter, bahkan lebih dari sepuluh meter di beberapa tempat.\n\nIndonesia memiliki sekitar dua puluh juta hektare lahan gambut. Sebagian besar berada di Sumatra, Kalimantan, dan Papua. Di Jambi, gambut terbentang luas di pesisir timur. Kawasan Taman Nasional Berbak menjadi rumah bagi harimau sumatra dan ratusan jenis burung. Kawasan ini juga menopang penghidupan warga sekitar melalui hasil hutan bukan kayu dan perikanan sungai.\n\nGambut berperan sebagai penyimpan karbon yang sangat besar. Satu hektare gambut dapat menyimpan karbon jauh lebih banyak daripada hutan di tanah mineral. Selama tetap basah, karbon itu terkunci aman di dalam tanah. Gambut juga bekerja seperti spons raksasa. Pada musim hujan, ia menyerap air berlebih sehingga banjir dapat ditekan. Pada musim kemarau, ia melepaskan air perlahan sehingga sungai tidak cepat kering.\n\nMasalah muncul ketika gambut dikeringkan lewat kanal untuk perkebunan. Gambut yang kering sangat mudah terbakar. Kanal yang terlalu banyak juga membuat permukaan tanah perlahan turun. Api bahkan dapat menjalar di bawah permukaan tanah. Kebakaran semacam itu sulit dipadamkan dan menghasilkan asap pekat berminggu-minggu. Akibatnya, karbon yang tersimpan lama terlepas ke udara dan mempercepat pemanasan global.\n\nKarena itu, pemulihan gambut dilakukan dengan membasahi kembali lahan yang kering. Caranya antara lain menyekat kanal agar air tertahan. Warga desa juga dilibatkan untuk menanam kembali tumbuhan asli rawa dan menjaga lahan. Upaya ini memerlukan waktu bertahun-tahun, tetapi hasilnya melindungi keselamatan banyak orang.",
+                    "question": "Hubungan makna antara paragraf keempat dan paragraf kelima adalah ....",
+                    "options": [
+                        "Paragraf keempat dan kelima sama-sama menjelaskan pengertian gambut.",
+                        "Paragraf kelima menolak seluruh isi paragraf keempat.",
+                        "Paragraf keempat merupakan kesimpulan dari isi paragraf kelima.",
+                        "Paragraf kelima merinci jenis satwa yang disebut dalam paragraf keempat.",
+                        "Paragraf keempat memaparkan masalah, sedangkan paragraf kelima menjelaskan upaya mengatasinya."
+                    ],
+                    "correctAnswer": "E",
+                    "explanation": "Paragraf 4 memuat masalah (pengeringan dan kebakaran); paragraf 5 memuat solusi (pembasahan kembali)."
+                },
+                {
+                    "id": 4,
+                    "type": "MCMA",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Mengidentifikasi informasi dalam teks",
+                    "passageTitle": "Gambut, Penyimpan Karbon Raksasa",
+                    "passage": "Lahan gambut adalah tanah yang terbentuk dari timbunan sisa tumbuhan. Proses itu berlangsung ribuan tahun di daerah yang selalu tergenang air. Karena tergenang, sisa tumbuhan tidak terurai sempurna. Timbunan itulah yang kita sebut gambut. Lapisannya dapat setebal beberapa meter, bahkan lebih dari sepuluh meter di beberapa tempat.\n\nIndonesia memiliki sekitar dua puluh juta hektare lahan gambut. Sebagian besar berada di Sumatra, Kalimantan, dan Papua. Di Jambi, gambut terbentang luas di pesisir timur. Kawasan Taman Nasional Berbak menjadi rumah bagi harimau sumatra dan ratusan jenis burung. Kawasan ini juga menopang penghidupan warga sekitar melalui hasil hutan bukan kayu dan perikanan sungai.\n\nGambut berperan sebagai penyimpan karbon yang sangat besar. Satu hektare gambut dapat menyimpan karbon jauh lebih banyak daripada hutan di tanah mineral. Selama tetap basah, karbon itu terkunci aman di dalam tanah. Gambut juga bekerja seperti spons raksasa. Pada musim hujan, ia menyerap air berlebih sehingga banjir dapat ditekan. Pada musim kemarau, ia melepaskan air perlahan sehingga sungai tidak cepat kering.\n\nMasalah muncul ketika gambut dikeringkan lewat kanal untuk perkebunan. Gambut yang kering sangat mudah terbakar. Kanal yang terlalu banyak juga membuat permukaan tanah perlahan turun. Api bahkan dapat menjalar di bawah permukaan tanah. Kebakaran semacam itu sulit dipadamkan dan menghasilkan asap pekat berminggu-minggu. Akibatnya, karbon yang tersimpan lama terlepas ke udara dan mempercepat pemanasan global.\n\nKarena itu, pemulihan gambut dilakukan dengan membasahi kembali lahan yang kering. Caranya antara lain menyekat kanal agar air tertahan. Warga desa juga dilibatkan untuk menanam kembali tumbuhan asli rawa dan menjaga lahan. Upaya ini memerlukan waktu bertahun-tahun, tetapi hasilnya melindungi keselamatan banyak orang.",
+                    "question": "Pilih TIGA peran gambut yang disebutkan dalam teks!",
+                    "options": [
+                        "Menyuburkan tanah untuk perkebunan",
+                        "Menyimpan karbon dalam jumlah besar",
+                        "Menghasilkan asap untuk mengusir hama",
+                        "Menyerap air berlebih pada musim hujan",
+                        "Melepaskan air perlahan pada musim kemarau"
+                    ],
+                    "correctAnswers": [
+                        "B",
+                        "D",
+                        "E"
+                    ],
+                    "explanation": "Teks menyebut gambut menyimpan karbon, menyerap air berlebih saat hujan, dan melepaskan air perlahan saat kemarau."
+                },
+                {
+                    "id": 5,
+                    "type": "KAT",
+                    "difficulty": "hard",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai keakuratan informasi dalam teks",
+                    "passageTitle": "Gambut, Penyimpan Karbon Raksasa",
+                    "passage": "Lahan gambut adalah tanah yang terbentuk dari timbunan sisa tumbuhan. Proses itu berlangsung ribuan tahun di daerah yang selalu tergenang air. Karena tergenang, sisa tumbuhan tidak terurai sempurna. Timbunan itulah yang kita sebut gambut. Lapisannya dapat setebal beberapa meter, bahkan lebih dari sepuluh meter di beberapa tempat.\n\nIndonesia memiliki sekitar dua puluh juta hektare lahan gambut. Sebagian besar berada di Sumatra, Kalimantan, dan Papua. Di Jambi, gambut terbentang luas di pesisir timur. Kawasan Taman Nasional Berbak menjadi rumah bagi harimau sumatra dan ratusan jenis burung. Kawasan ini juga menopang penghidupan warga sekitar melalui hasil hutan bukan kayu dan perikanan sungai.\n\nGambut berperan sebagai penyimpan karbon yang sangat besar. Satu hektare gambut dapat menyimpan karbon jauh lebih banyak daripada hutan di tanah mineral. Selama tetap basah, karbon itu terkunci aman di dalam tanah. Gambut juga bekerja seperti spons raksasa. Pada musim hujan, ia menyerap air berlebih sehingga banjir dapat ditekan. Pada musim kemarau, ia melepaskan air perlahan sehingga sungai tidak cepat kering.\n\nMasalah muncul ketika gambut dikeringkan lewat kanal untuk perkebunan. Gambut yang kering sangat mudah terbakar. Kanal yang terlalu banyak juga membuat permukaan tanah perlahan turun. Api bahkan dapat menjalar di bawah permukaan tanah. Kebakaran semacam itu sulit dipadamkan dan menghasilkan asap pekat berminggu-minggu. Akibatnya, karbon yang tersimpan lama terlepas ke udara dan mempercepat pemanasan global.\n\nKarena itu, pemulihan gambut dilakukan dengan membasahi kembali lahan yang kering. Caranya antara lain menyekat kanal agar air tertahan. Warga desa juga dilibatkan untuk menanam kembali tumbuhan asli rawa dan menjaga lahan. Upaya ini memerlukan waktu bertahun-tahun, tetapi hasilnya melindungi keselamatan banyak orang.",
+                    "question": "Tentukan apakah setiap pernyataan berikut BENAR atau SALAH berdasarkan teks!",
+                    "statements": [
+                        {
+                            "text": "Gambut terbentuk dari sisa tumbuhan yang tidak terurai sempurna karena tergenang air.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Pemulihan gambut dilakukan dengan membasahi kembali lahan yang telah kering.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Kebakaran gambut hanya terjadi di permukaan tanah sehingga mudah dipadamkan.",
+                            "answer": false
+                        },
+                        {
+                            "text": "Seluruh lahan gambut Indonesia berada di Provinsi Jambi.",
+                            "answer": false
+                        }
+                    ],
+                    "labels": [
+                        "Benar",
+                        "Salah"
+                    ],
+                    "explanation": "Teks menyatakan api dapat menjalar di bawah tanah dan sulit dipadamkan; gambut tersebar di Sumatra, Kalimantan, dan Papua."
+                },
+                {
+                    "id": 6,
+                    "type": "PG",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menyimpulkan gagasan dari beberapa teks",
+                    "passageTitle": "Dua Pandangan tentang Ponsel di Kelas",
+                    "passage": "Teks 1: Ponsel Layak Hadir di Kelas\n\nPonsel pintar bukan lagi sekadar alat bermain. Di tangan siswa yang tepat, perangkat ini menjadi sumber belajar yang praktis. Kamus daring membantu siswa memahami kosakata sulit dalam hitungan detik. Aplikasi simulasi memperlihatkan reaksi kimia yang berbahaya jika dipraktikkan langsung. Kuis interaktif membuat guru segera mengetahui materi yang belum dipahami. Sebagian aplikasi bahkan menyediakan latihan soal yang dapat dikerjakan kapan saja.\n\nManfaat itu terasa jelas di sekolah dengan perpustakaan terbatas. Lewat ponsel, siswa tetap dapat membaca berita dan buku digital. Di sekolah kami, tujuh dari sepuluh siswa mengaku lebih mudah memahami pelajaran setelah guru memakai kuis daring.\n\nTentu saja, penggunaan ponsel harus diatur. Guru perlu menetapkan kapan ponsel boleh dipakai dan untuk keperluan apa. Aturan itu dapat disusun bersama siswa agar mereka merasa ikut bertanggung jawab. Dengan aturan yang jelas, ponsel justru melatih tanggung jawab siswa.\n\nTeks 2: Kelas Perlu Bebas Ponsel\n\nSebaliknya, ruang kelas seharusnya menjadi tempat yang tenang untuk berpikir. Satu notifikasi saja dapat memecah perhatian siswa yang sedang menyimak. Setelah perhatian terpecah, siswa membutuhkan waktu untuk kembali fokus. Akibatnya, penjelasan guru sering tidak tertangkap utuh.\n\nSelain itu, ponsel membuka peluang kecurangan saat ulangan. Jawaban dapat dikirim dalam hitungan detik tanpa diketahui pengawas. Ponsel juga mengurangi percakapan langsung antarsiswa pada jam istirahat. Bagi siswa yang belum disiplin, godaan membuka media sosial terasa lebih kuat daripada keinginan menyimak pelajaran.\n\nOleh sebab itu, sekolah sebaiknya menyimpan ponsel di loker selama pelajaran. Sekolah dapat menyediakan sudut khusus agar ponsel tersimpan dengan aman. Ponsel hanya boleh dipakai pada kegiatan tertentu yang diawasi guru. Aturan seperti ini melindungi konsentrasi belajar tanpa menutup manfaat teknologi sepenuhnya.",
+                    "question": "Persamaan pandangan Teks 1 dan Teks 2 adalah ....",
+                    "options": [
+                        "Ponsel harus dilarang sepenuhnya di sekolah.",
+                        "Penggunaan ponsel di sekolah perlu diatur dengan aturan yang jelas.",
+                        "Ponsel selalu meningkatkan hasil belajar siswa.",
+                        "Ponsel adalah penyebab utama kecurangan saat ulangan.",
+                        "Perpustakaan sekolah sebaiknya digantikan oleh ponsel."
+                    ],
+                    "correctAnswer": "B",
+                    "explanation": "Teks 1 meminta guru menetapkan aturan pemakaian; Teks 2 meminta ponsel disimpan dan dipakai hanya pada kegiatan tertentu."
+                },
+                {
+                    "id": 7,
+                    "type": "PG",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menjelaskan hubungan makna antarkalimat",
+                    "passageTitle": "Dua Pandangan tentang Ponsel di Kelas",
+                    "passage": "Teks 1: Ponsel Layak Hadir di Kelas\n\nPonsel pintar bukan lagi sekadar alat bermain. Di tangan siswa yang tepat, perangkat ini menjadi sumber belajar yang praktis. Kamus daring membantu siswa memahami kosakata sulit dalam hitungan detik. Aplikasi simulasi memperlihatkan reaksi kimia yang berbahaya jika dipraktikkan langsung. Kuis interaktif membuat guru segera mengetahui materi yang belum dipahami. Sebagian aplikasi bahkan menyediakan latihan soal yang dapat dikerjakan kapan saja.\n\nManfaat itu terasa jelas di sekolah dengan perpustakaan terbatas. Lewat ponsel, siswa tetap dapat membaca berita dan buku digital. Di sekolah kami, tujuh dari sepuluh siswa mengaku lebih mudah memahami pelajaran setelah guru memakai kuis daring.\n\nTentu saja, penggunaan ponsel harus diatur. Guru perlu menetapkan kapan ponsel boleh dipakai dan untuk keperluan apa. Aturan itu dapat disusun bersama siswa agar mereka merasa ikut bertanggung jawab. Dengan aturan yang jelas, ponsel justru melatih tanggung jawab siswa.\n\nTeks 2: Kelas Perlu Bebas Ponsel\n\nSebaliknya, ruang kelas seharusnya menjadi tempat yang tenang untuk berpikir. Satu notifikasi saja dapat memecah perhatian siswa yang sedang menyimak. Setelah perhatian terpecah, siswa membutuhkan waktu untuk kembali fokus. Akibatnya, penjelasan guru sering tidak tertangkap utuh.\n\nSelain itu, ponsel membuka peluang kecurangan saat ulangan. Jawaban dapat dikirim dalam hitungan detik tanpa diketahui pengawas. Ponsel juga mengurangi percakapan langsung antarsiswa pada jam istirahat. Bagi siswa yang belum disiplin, godaan membuka media sosial terasa lebih kuat daripada keinginan menyimak pelajaran.\n\nOleh sebab itu, sekolah sebaiknya menyimpan ponsel di loker selama pelajaran. Sekolah dapat menyediakan sudut khusus agar ponsel tersimpan dengan aman. Ponsel hanya boleh dipakai pada kegiatan tertentu yang diawasi guru. Aturan seperti ini melindungi konsentrasi belajar tanpa menutup manfaat teknologi sepenuhnya.",
+                    "question": "Kalimat “Akibatnya, penjelasan guru sering tidak tertangkap utuh” pada Teks 2 menyatakan hubungan ....",
+                    "options": [
+                        "pertentangan terhadap kalimat sebelumnya",
+                        "urutan waktu terhadap kalimat sebelumnya",
+                        "perbandingan terhadap kalimat sebelumnya",
+                        "sebab-akibat terhadap kalimat sebelumnya",
+                        "pemberian contoh terhadap kalimat sebelumnya"
+                    ],
+                    "correctAnswer": "D",
+                    "explanation": "Kata “akibatnya” menandai hasil dari perhatian siswa yang terpecah oleh notifikasi."
+                },
+                {
+                    "id": 8,
+                    "type": "MCMA",
+                    "difficulty": "hard",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai kecukupan informasi dalam teks",
+                    "passageTitle": "Dua Pandangan tentang Ponsel di Kelas",
+                    "passage": "Teks 1: Ponsel Layak Hadir di Kelas\n\nPonsel pintar bukan lagi sekadar alat bermain. Di tangan siswa yang tepat, perangkat ini menjadi sumber belajar yang praktis. Kamus daring membantu siswa memahami kosakata sulit dalam hitungan detik. Aplikasi simulasi memperlihatkan reaksi kimia yang berbahaya jika dipraktikkan langsung. Kuis interaktif membuat guru segera mengetahui materi yang belum dipahami. Sebagian aplikasi bahkan menyediakan latihan soal yang dapat dikerjakan kapan saja.\n\nManfaat itu terasa jelas di sekolah dengan perpustakaan terbatas. Lewat ponsel, siswa tetap dapat membaca berita dan buku digital. Di sekolah kami, tujuh dari sepuluh siswa mengaku lebih mudah memahami pelajaran setelah guru memakai kuis daring.\n\nTentu saja, penggunaan ponsel harus diatur. Guru perlu menetapkan kapan ponsel boleh dipakai dan untuk keperluan apa. Aturan itu dapat disusun bersama siswa agar mereka merasa ikut bertanggung jawab. Dengan aturan yang jelas, ponsel justru melatih tanggung jawab siswa.\n\nTeks 2: Kelas Perlu Bebas Ponsel\n\nSebaliknya, ruang kelas seharusnya menjadi tempat yang tenang untuk berpikir. Satu notifikasi saja dapat memecah perhatian siswa yang sedang menyimak. Setelah perhatian terpecah, siswa membutuhkan waktu untuk kembali fokus. Akibatnya, penjelasan guru sering tidak tertangkap utuh.\n\nSelain itu, ponsel membuka peluang kecurangan saat ulangan. Jawaban dapat dikirim dalam hitungan detik tanpa diketahui pengawas. Ponsel juga mengurangi percakapan langsung antarsiswa pada jam istirahat. Bagi siswa yang belum disiplin, godaan membuka media sosial terasa lebih kuat daripada keinginan menyimak pelajaran.\n\nOleh sebab itu, sekolah sebaiknya menyimpan ponsel di loker selama pelajaran. Sekolah dapat menyediakan sudut khusus agar ponsel tersimpan dengan aman. Ponsel hanya boleh dipakai pada kegiatan tertentu yang diawasi guru. Aturan seperti ini melindungi konsentrasi belajar tanpa menutup manfaat teknologi sepenuhnya.",
+                    "question": "Teks 1 menyebut tujuh dari sepuluh siswa lebih mudah memahami pelajaran lewat kuis daring. Pilih DUA pernyataan yang tepat tentang data tersebut!",
+                    "options": [
+                        "Data itu berasal dari satu sekolah sehingga belum cukup mewakili semua sekolah.",
+                        "Data itu membuktikan seluruh siswa Indonesia belajar lebih baik dengan ponsel.",
+                        "Data itu sudah cukup untuk membantah semua argumen Teks 2.",
+                        "Data itu berupa pengakuan siswa, bukan hasil pengukuran prestasi belajar.",
+                        "Data itu tidak relevan karena tidak berkaitan dengan pembelajaran."
+                    ],
+                    "correctAnswers": [
+                        "A",
+                        "D"
+                    ],
+                    "explanation": "Sampel hanya satu sekolah dan datanya berupa pengakuan, sehingga belum cukup untuk digeneralisasi."
+                },
+                {
+                    "id": 9,
+                    "type": "PG",
+                    "difficulty": "hard",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai ketepatan penggunaan bahasa dalam teks",
+                    "passageTitle": "Dua Pandangan tentang Ponsel di Kelas",
+                    "passage": "Teks 1: Ponsel Layak Hadir di Kelas\n\nPonsel pintar bukan lagi sekadar alat bermain. Di tangan siswa yang tepat, perangkat ini menjadi sumber belajar yang praktis. Kamus daring membantu siswa memahami kosakata sulit dalam hitungan detik. Aplikasi simulasi memperlihatkan reaksi kimia yang berbahaya jika dipraktikkan langsung. Kuis interaktif membuat guru segera mengetahui materi yang belum dipahami. Sebagian aplikasi bahkan menyediakan latihan soal yang dapat dikerjakan kapan saja.\n\nManfaat itu terasa jelas di sekolah dengan perpustakaan terbatas. Lewat ponsel, siswa tetap dapat membaca berita dan buku digital. Di sekolah kami, tujuh dari sepuluh siswa mengaku lebih mudah memahami pelajaran setelah guru memakai kuis daring.\n\nTentu saja, penggunaan ponsel harus diatur. Guru perlu menetapkan kapan ponsel boleh dipakai dan untuk keperluan apa. Aturan itu dapat disusun bersama siswa agar mereka merasa ikut bertanggung jawab. Dengan aturan yang jelas, ponsel justru melatih tanggung jawab siswa.\n\nTeks 2: Kelas Perlu Bebas Ponsel\n\nSebaliknya, ruang kelas seharusnya menjadi tempat yang tenang untuk berpikir. Satu notifikasi saja dapat memecah perhatian siswa yang sedang menyimak. Setelah perhatian terpecah, siswa membutuhkan waktu untuk kembali fokus. Akibatnya, penjelasan guru sering tidak tertangkap utuh.\n\nSelain itu, ponsel membuka peluang kecurangan saat ulangan. Jawaban dapat dikirim dalam hitungan detik tanpa diketahui pengawas. Ponsel juga mengurangi percakapan langsung antarsiswa pada jam istirahat. Bagi siswa yang belum disiplin, godaan membuka media sosial terasa lebih kuat daripada keinginan menyimak pelajaran.\n\nOleh sebab itu, sekolah sebaiknya menyimpan ponsel di loker selama pelajaran. Sekolah dapat menyediakan sudut khusus agar ponsel tersimpan dengan aman. Ponsel hanya boleh dipakai pada kegiatan tertentu yang diawasi guru. Aturan seperti ini melindungi konsentrasi belajar tanpa menutup manfaat teknologi sepenuhnya.",
+                    "question": "Kata justru pada kalimat terakhir Teks 1 tepat digunakan karena menunjukkan ....",
+                    "options": [
+                        "urutan kejadian yang terjadi lebih dahulu",
+                        "pemberian contoh yang memperkuat kalimat sebelumnya",
+                        "hasil yang berlawanan dengan dugaan bahwa ponsel hanya merugikan",
+                        "pembatasan jumlah siswa yang boleh memakai ponsel",
+                        "sebab yang menjelaskan mengapa aturan diperlukan"
+                    ],
+                    "correctAnswer": "C",
+                    "explanation": "“Justru” menandai hasil yang bertentangan dengan dugaan umum."
+                },
+                {
+                    "id": 10,
+                    "type": "KAT",
+                    "difficulty": "medium",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai keakuratan dan kesesuaian informasi",
+                    "passageTitle": "Dua Pandangan tentang Ponsel di Kelas",
+                    "passage": "Teks 1: Ponsel Layak Hadir di Kelas\n\nPonsel pintar bukan lagi sekadar alat bermain. Di tangan siswa yang tepat, perangkat ini menjadi sumber belajar yang praktis. Kamus daring membantu siswa memahami kosakata sulit dalam hitungan detik. Aplikasi simulasi memperlihatkan reaksi kimia yang berbahaya jika dipraktikkan langsung. Kuis interaktif membuat guru segera mengetahui materi yang belum dipahami. Sebagian aplikasi bahkan menyediakan latihan soal yang dapat dikerjakan kapan saja.\n\nManfaat itu terasa jelas di sekolah dengan perpustakaan terbatas. Lewat ponsel, siswa tetap dapat membaca berita dan buku digital. Di sekolah kami, tujuh dari sepuluh siswa mengaku lebih mudah memahami pelajaran setelah guru memakai kuis daring.\n\nTentu saja, penggunaan ponsel harus diatur. Guru perlu menetapkan kapan ponsel boleh dipakai dan untuk keperluan apa. Aturan itu dapat disusun bersama siswa agar mereka merasa ikut bertanggung jawab. Dengan aturan yang jelas, ponsel justru melatih tanggung jawab siswa.\n\nTeks 2: Kelas Perlu Bebas Ponsel\n\nSebaliknya, ruang kelas seharusnya menjadi tempat yang tenang untuk berpikir. Satu notifikasi saja dapat memecah perhatian siswa yang sedang menyimak. Setelah perhatian terpecah, siswa membutuhkan waktu untuk kembali fokus. Akibatnya, penjelasan guru sering tidak tertangkap utuh.\n\nSelain itu, ponsel membuka peluang kecurangan saat ulangan. Jawaban dapat dikirim dalam hitungan detik tanpa diketahui pengawas. Ponsel juga mengurangi percakapan langsung antarsiswa pada jam istirahat. Bagi siswa yang belum disiplin, godaan membuka media sosial terasa lebih kuat daripada keinginan menyimak pelajaran.\n\nOleh sebab itu, sekolah sebaiknya menyimpan ponsel di loker selama pelajaran. Sekolah dapat menyediakan sudut khusus agar ponsel tersimpan dengan aman. Ponsel hanya boleh dipakai pada kegiatan tertentu yang diawasi guru. Aturan seperti ini melindungi konsentrasi belajar tanpa menutup manfaat teknologi sepenuhnya.",
+                    "question": "Tentukan apakah setiap pernyataan berikut BENAR atau SALAH berdasarkan Teks 1 dan Teks 2!",
+                    "statements": [
+                        {
+                            "text": "Teks 2 menyatakan ponsel tidak memiliki manfaat sama sekali bagi pembelajaran.",
+                            "answer": false
+                        },
+                        {
+                            "text": "Teks 1 mengusulkan pemakaian ponsel dengan aturan, sedangkan Teks 2 mengusulkan ponsel disimpan di loker.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Kedua teks menyebutkan peran guru dalam mengatur penggunaan ponsel.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Teks 1 menyebut ponsel dapat mengurangi percakapan langsung antarsiswa.",
+                            "answer": false
+                        }
+                    ],
+                    "labels": [
+                        "Benar",
+                        "Salah"
+                    ],
+                    "explanation": "Teks 2 tetap menyebut “manfaat teknologi”; pengurangan percakapan disebut Teks 2, bukan Teks 1."
+                },
+                {
+                    "id": 11,
+                    "type": "PG",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menyusun kerangka/bagan berdasarkan bagian penting teks",
+                    "passageTitle": "Membaca Aktif dengan Metode SQ3R",
+                    "passage": "Banyak orang merasa sudah membaca, padahal belum memahami isinya. Akibatnya, waktu belajar terbuang dan hasilnya tidak maksimal. Hal itu terjadi karena mata bergerak di atas tulisan, sedangkan pikiran melayang ke tempat lain. Metode SQ3R dirancang untuk mencegah masalah tersebut. Singkatan itu berasal dari lima langkah: Survey, Question, Read, Recite, dan Review.\n\nLangkah pertama adalah survey. Pembaca melihat judul, subjudul, gambar, dan kalimat awal tiap bagian. Tujuannya mendapat gambaran umum sebelum membaca secara lengkap. Langkah kedua adalah question. Pembaca mengubah judul dan subjudul menjadi pertanyaan, misalnya “Apa penyebab perubahan iklim?”. Pertanyaan itu memberi arah selama membaca. Pertanyaan yang baik biasanya diawali kata tanya seperti apa, mengapa, dan bagaimana. Kedua langkah ini hanya memerlukan beberapa menit.\n\nSetelah itu, pembaca masuk ke langkah read. Bacalah satu bagian dengan saksama sambil mencari jawaban atas pertanyaan tadi. Pembaca juga dapat menuliskan kata kunci di pinggir halaman sebagai pengingat. Berhentilah sejenak di akhir bagian. Langkah keempat adalah recite. Pembaca menyebutkan jawabannya dengan kata-kata sendiri tanpa melihat teks. Jika ada bagian yang belum bisa dijelaskan, pembaca perlu membacanya kembali. Langkah terakhir adalah review. Pembaca meninjau seluruh catatan dan memeriksa apakah semua pertanyaan sudah terjawab.\n\nMetode ini melatih metakognisi, yaitu kesadaran seseorang terhadap cara berpikirnya sendiri. Pembaca terbiasa bertanya, “Apakah aku benar-benar paham?” sebelum melanjutkan. Dengan begitu, kekeliruan pemahaman dapat diketahui lebih awal. Kebiasaan ini juga membuat seseorang lebih mandiri ketika harus mempelajari topik baru tanpa bantuan guru. Meskipun terasa lambat pada awalnya, kebiasaan ini membuat bacaan rumit lebih mudah diingat. Namun, metode ini kurang cocok untuk bacaan ringan yang hanya dibaca sebagai hiburan.",
+                    "question": "Urutan langkah membaca yang benar menurut teks adalah ....",
+                    "options": [
+                        "Question – Survey – Read – Review – Recite",
+                        "Survey – Read – Question – Recite – Review",
+                        "Read – Survey – Question – Review – Recite",
+                        "Survey – Question – Recite – Read – Review",
+                        "Survey – Question – Read – Recite – Review"
+                    ],
+                    "correctAnswer": "E",
+                    "explanation": "Urutan resmi SQ3R: Survey, Question, Read, Recite, Review."
+                },
+                {
+                    "id": 12,
+                    "type": "PG",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menyimpulkan gagasan pendukung",
+                    "passageTitle": "Membaca Aktif dengan Metode SQ3R",
+                    "passage": "Banyak orang merasa sudah membaca, padahal belum memahami isinya. Akibatnya, waktu belajar terbuang dan hasilnya tidak maksimal. Hal itu terjadi karena mata bergerak di atas tulisan, sedangkan pikiran melayang ke tempat lain. Metode SQ3R dirancang untuk mencegah masalah tersebut. Singkatan itu berasal dari lima langkah: Survey, Question, Read, Recite, dan Review.\n\nLangkah pertama adalah survey. Pembaca melihat judul, subjudul, gambar, dan kalimat awal tiap bagian. Tujuannya mendapat gambaran umum sebelum membaca secara lengkap. Langkah kedua adalah question. Pembaca mengubah judul dan subjudul menjadi pertanyaan, misalnya “Apa penyebab perubahan iklim?”. Pertanyaan itu memberi arah selama membaca. Pertanyaan yang baik biasanya diawali kata tanya seperti apa, mengapa, dan bagaimana. Kedua langkah ini hanya memerlukan beberapa menit.\n\nSetelah itu, pembaca masuk ke langkah read. Bacalah satu bagian dengan saksama sambil mencari jawaban atas pertanyaan tadi. Pembaca juga dapat menuliskan kata kunci di pinggir halaman sebagai pengingat. Berhentilah sejenak di akhir bagian. Langkah keempat adalah recite. Pembaca menyebutkan jawabannya dengan kata-kata sendiri tanpa melihat teks. Jika ada bagian yang belum bisa dijelaskan, pembaca perlu membacanya kembali. Langkah terakhir adalah review. Pembaca meninjau seluruh catatan dan memeriksa apakah semua pertanyaan sudah terjawab.\n\nMetode ini melatih metakognisi, yaitu kesadaran seseorang terhadap cara berpikirnya sendiri. Pembaca terbiasa bertanya, “Apakah aku benar-benar paham?” sebelum melanjutkan. Dengan begitu, kekeliruan pemahaman dapat diketahui lebih awal. Kebiasaan ini juga membuat seseorang lebih mandiri ketika harus mempelajari topik baru tanpa bantuan guru. Meskipun terasa lambat pada awalnya, kebiasaan ini membuat bacaan rumit lebih mudah diingat. Namun, metode ini kurang cocok untuk bacaan ringan yang hanya dibaca sebagai hiburan.",
+                    "question": "Tujuan utama pembaca menyebutkan jawaban tanpa melihat teks pada langkah recite adalah ....",
+                    "options": [
+                        "menghafal teks kata demi kata",
+                        "menguji apakah pemahamannya benar-benar sudah terbentuk",
+                        "mempercepat waktu membaca",
+                        "menggantikan langkah review",
+                        "melatih berbicara di depan umum"
+                    ],
+                    "correctAnswer": "B",
+                    "explanation": "Jika belum bisa menjelaskan dengan kata-kata sendiri, pembaca tahu harus membaca ulang."
+                },
+                {
+                    "id": 13,
+                    "type": "PG",
+                    "difficulty": "hard",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menyimpulkan konsep (metakognisi) dalam teks",
+                    "passageTitle": "Membaca Aktif dengan Metode SQ3R",
+                    "passage": "Banyak orang merasa sudah membaca, padahal belum memahami isinya. Akibatnya, waktu belajar terbuang dan hasilnya tidak maksimal. Hal itu terjadi karena mata bergerak di atas tulisan, sedangkan pikiran melayang ke tempat lain. Metode SQ3R dirancang untuk mencegah masalah tersebut. Singkatan itu berasal dari lima langkah: Survey, Question, Read, Recite, dan Review.\n\nLangkah pertama adalah survey. Pembaca melihat judul, subjudul, gambar, dan kalimat awal tiap bagian. Tujuannya mendapat gambaran umum sebelum membaca secara lengkap. Langkah kedua adalah question. Pembaca mengubah judul dan subjudul menjadi pertanyaan, misalnya “Apa penyebab perubahan iklim?”. Pertanyaan itu memberi arah selama membaca. Pertanyaan yang baik biasanya diawali kata tanya seperti apa, mengapa, dan bagaimana. Kedua langkah ini hanya memerlukan beberapa menit.\n\nSetelah itu, pembaca masuk ke langkah read. Bacalah satu bagian dengan saksama sambil mencari jawaban atas pertanyaan tadi. Pembaca juga dapat menuliskan kata kunci di pinggir halaman sebagai pengingat. Berhentilah sejenak di akhir bagian. Langkah keempat adalah recite. Pembaca menyebutkan jawabannya dengan kata-kata sendiri tanpa melihat teks. Jika ada bagian yang belum bisa dijelaskan, pembaca perlu membacanya kembali. Langkah terakhir adalah review. Pembaca meninjau seluruh catatan dan memeriksa apakah semua pertanyaan sudah terjawab.\n\nMetode ini melatih metakognisi, yaitu kesadaran seseorang terhadap cara berpikirnya sendiri. Pembaca terbiasa bertanya, “Apakah aku benar-benar paham?” sebelum melanjutkan. Dengan begitu, kekeliruan pemahaman dapat diketahui lebih awal. Kebiasaan ini juga membuat seseorang lebih mandiri ketika harus mempelajari topik baru tanpa bantuan guru. Meskipun terasa lambat pada awalnya, kebiasaan ini membuat bacaan rumit lebih mudah diingat. Namun, metode ini kurang cocok untuk bacaan ringan yang hanya dibaca sebagai hiburan.",
+                    "question": "Perilaku yang menunjukkan metakognisi menurut teks adalah ....",
+                    "options": [
+                        "pembaca berhenti sejenak dan menanyakan pada dirinya apakah ia benar-benar paham",
+                        "pembaca membaca seluruh buku tanpa berhenti",
+                        "pembaca meminjam catatan temannya sebagai pengganti membaca",
+                        "pembaca menghafal semua subjudul bacaan",
+                        "pembaca mempercepat kecepatan membacanya"
+                    ],
+                    "correctAnswer": "A",
+                    "explanation": "Metakognisi = kesadaran terhadap cara berpikir sendiri, misalnya memeriksa pemahaman diri."
+                },
+                {
+                    "id": 14,
+                    "type": "MCMA",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Mengidentifikasi informasi dalam teks",
+                    "passageTitle": "Membaca Aktif dengan Metode SQ3R",
+                    "passage": "Banyak orang merasa sudah membaca, padahal belum memahami isinya. Akibatnya, waktu belajar terbuang dan hasilnya tidak maksimal. Hal itu terjadi karena mata bergerak di atas tulisan, sedangkan pikiran melayang ke tempat lain. Metode SQ3R dirancang untuk mencegah masalah tersebut. Singkatan itu berasal dari lima langkah: Survey, Question, Read, Recite, dan Review.\n\nLangkah pertama adalah survey. Pembaca melihat judul, subjudul, gambar, dan kalimat awal tiap bagian. Tujuannya mendapat gambaran umum sebelum membaca secara lengkap. Langkah kedua adalah question. Pembaca mengubah judul dan subjudul menjadi pertanyaan, misalnya “Apa penyebab perubahan iklim?”. Pertanyaan itu memberi arah selama membaca. Pertanyaan yang baik biasanya diawali kata tanya seperti apa, mengapa, dan bagaimana. Kedua langkah ini hanya memerlukan beberapa menit.\n\nSetelah itu, pembaca masuk ke langkah read. Bacalah satu bagian dengan saksama sambil mencari jawaban atas pertanyaan tadi. Pembaca juga dapat menuliskan kata kunci di pinggir halaman sebagai pengingat. Berhentilah sejenak di akhir bagian. Langkah keempat adalah recite. Pembaca menyebutkan jawabannya dengan kata-kata sendiri tanpa melihat teks. Jika ada bagian yang belum bisa dijelaskan, pembaca perlu membacanya kembali. Langkah terakhir adalah review. Pembaca meninjau seluruh catatan dan memeriksa apakah semua pertanyaan sudah terjawab.\n\nMetode ini melatih metakognisi, yaitu kesadaran seseorang terhadap cara berpikirnya sendiri. Pembaca terbiasa bertanya, “Apakah aku benar-benar paham?” sebelum melanjutkan. Dengan begitu, kekeliruan pemahaman dapat diketahui lebih awal. Kebiasaan ini juga membuat seseorang lebih mandiri ketika harus mempelajari topik baru tanpa bantuan guru. Meskipun terasa lambat pada awalnya, kebiasaan ini membuat bacaan rumit lebih mudah diingat. Namun, metode ini kurang cocok untuk bacaan ringan yang hanya dibaca sebagai hiburan.",
+                    "question": "Pilih DUA hal yang dilakukan pembaca pada langkah survey!",
+                    "options": [
+                        "Menyebutkan jawaban tanpa melihat teks",
+                        "Melihat judul dan subjudul",
+                        "Mengubah subjudul menjadi pertanyaan",
+                        "Meninjau seluruh catatan",
+                        "Melihat gambar dan kalimat awal tiap bagian"
+                    ],
+                    "correctAnswers": [
+                        "B",
+                        "E"
+                    ],
+                    "explanation": "Survey = melihat judul, subjudul, gambar, dan kalimat awal tiap bagian."
+                },
+                {
+                    "id": 15,
+                    "type": "KAT",
+                    "difficulty": "medium",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai ketepatan informasi dalam teks",
+                    "passageTitle": "Membaca Aktif dengan Metode SQ3R",
+                    "passage": "Banyak orang merasa sudah membaca, padahal belum memahami isinya. Akibatnya, waktu belajar terbuang dan hasilnya tidak maksimal. Hal itu terjadi karena mata bergerak di atas tulisan, sedangkan pikiran melayang ke tempat lain. Metode SQ3R dirancang untuk mencegah masalah tersebut. Singkatan itu berasal dari lima langkah: Survey, Question, Read, Recite, dan Review.\n\nLangkah pertama adalah survey. Pembaca melihat judul, subjudul, gambar, dan kalimat awal tiap bagian. Tujuannya mendapat gambaran umum sebelum membaca secara lengkap. Langkah kedua adalah question. Pembaca mengubah judul dan subjudul menjadi pertanyaan, misalnya “Apa penyebab perubahan iklim?”. Pertanyaan itu memberi arah selama membaca. Pertanyaan yang baik biasanya diawali kata tanya seperti apa, mengapa, dan bagaimana. Kedua langkah ini hanya memerlukan beberapa menit.\n\nSetelah itu, pembaca masuk ke langkah read. Bacalah satu bagian dengan saksama sambil mencari jawaban atas pertanyaan tadi. Pembaca juga dapat menuliskan kata kunci di pinggir halaman sebagai pengingat. Berhentilah sejenak di akhir bagian. Langkah keempat adalah recite. Pembaca menyebutkan jawabannya dengan kata-kata sendiri tanpa melihat teks. Jika ada bagian yang belum bisa dijelaskan, pembaca perlu membacanya kembali. Langkah terakhir adalah review. Pembaca meninjau seluruh catatan dan memeriksa apakah semua pertanyaan sudah terjawab.\n\nMetode ini melatih metakognisi, yaitu kesadaran seseorang terhadap cara berpikirnya sendiri. Pembaca terbiasa bertanya, “Apakah aku benar-benar paham?” sebelum melanjutkan. Dengan begitu, kekeliruan pemahaman dapat diketahui lebih awal. Kebiasaan ini juga membuat seseorang lebih mandiri ketika harus mempelajari topik baru tanpa bantuan guru. Meskipun terasa lambat pada awalnya, kebiasaan ini membuat bacaan rumit lebih mudah diingat. Namun, metode ini kurang cocok untuk bacaan ringan yang hanya dibaca sebagai hiburan.",
+                    "question": "Tentukan apakah setiap pernyataan berikut SESUAI atau TIDAK SESUAI dengan isi teks!",
+                    "statements": [
+                        {
+                            "text": "Metode SQ3R tepat dipakai untuk semua jenis bacaan, termasuk bacaan hiburan ringan.",
+                            "answer": false
+                        },
+                        {
+                            "text": "Langkah question dilakukan setelah pembaca selesai membaca seluruh teks.",
+                            "answer": false
+                        },
+                        {
+                            "text": "Pembaca sebaiknya membaca ulang bagian yang belum dapat dijelaskan dengan kata-kata sendiri.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Kebiasaan bertanya pada diri sendiri membantu mengetahui kekeliruan pemahaman lebih awal.",
+                            "answer": true
+                        }
+                    ],
+                    "labels": [
+                        "Sesuai",
+                        "Tidak sesuai"
+                    ],
+                    "explanation": "Teks menyatakan metode ini kurang cocok untuk bacaan ringan dan question dilakukan sebelum read."
+                },
+                {
+                    "id": 16,
+                    "type": "PG",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Mengidentifikasi latar berdasarkan kosakata dalam teks fiksi",
+                    "passageTitle": "Perahu Ayah (cerita pendek)",
+                    "passage": "Pagi itu kabut menutupi Sungai Batanghari seperti selimut tipis. Udara terasa dingin dan berbau lumpur. Raka berdiri di ujung dermaga dengan ransel di punggungnya. Di tangannya tergenggam surat pengumuman beasiswa dari sebuah universitas di Bandung. Burung-burung walet terbang rendah di atas permukaan air yang keruh. Surat itu belum ia perlihatkan kepada siapa pun.\n\nDari kejauhan, terdengar bunyi mesin perahu tua milik ayahnya. Raka teringat sore sepuluh tahun lalu. Saat itu ia masih kecil dan takut air. Ayah memegang kedua bahunya, lalu berkata tanpa senyum, “Sungai tidak akan menelan orang yang menghormatinya.” Kalimat itu terdengar keras, tetapi malam harinya Ayah diam-diam menjahit pelampung kecil dari kain bekas untuknya. Sejak itu, Raka tidak pernah lagi menolak ikut ayahnya ke sungai.\n\nKini perahu itu merapat. Ayah turun sambil memikul keranjang ikan. Wajahnya basah oleh embun dan keringat. “Kenapa belum berangkat sekolah?” tanyanya datar. Raka menelan ludah. Ia ingin menceritakan beasiswa itu, tetapi lidahnya kelu. Selama ini, ayahnya jarang bercerita tentang kerja kerasnya. Ia tahu perahu itu satu-satunya sumber nafkah keluarga. Jika ia pergi, siapa yang akan membantu Ayah menarik jala setiap subuh?\n\nAyah menatap surat di tangan anaknya. Matanya berhenti pada gambar menara kampus di kop surat. Ayah menarik napas panjang, seperti hendak mengatakan sesuatu yang berat. Lama ia terdiam, hanya terdengar air menepuk lambung perahu. Kemudian ia meletakkan keranjangnya dan mengusap tangan pada celananya yang lusuh.\n\n“Perahu ini sudah tua,” katanya akhirnya. “Tapi ia bertahan karena tidak pernah dipaksa berlayar di tempat yang salah.”\n\nRaka belum mengerti maksud ucapan itu. Ia hanya melihat Ayah berbalik menatap sungai, dan bahunya tampak lebih rendah daripada biasanya.",
+                    "question": "Latar tempat dan suasana pada awal cerita adalah ....",
+                    "options": [
+                        "kampus di Bandung pada sore hari yang cerah",
+                        "rumah Raka pada malam hari yang sunyi",
+                        "pasar ikan pada siang hari yang ramai",
+                        "dermaga Sungai Batanghari pada pagi hari yang berkabut",
+                        "tengah sungai saat hujan deras"
+                    ],
+                    "correctAnswer": "D",
+                    "explanation": "Paragraf pertama: kabut menutupi Sungai Batanghari dan Raka berdiri di ujung dermaga."
+                },
+                {
+                    "id": 17,
+                    "type": "PG",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menyimpulkan tokoh dan karakternya",
+                    "passageTitle": "Perahu Ayah (cerita pendek)",
+                    "passage": "Pagi itu kabut menutupi Sungai Batanghari seperti selimut tipis. Udara terasa dingin dan berbau lumpur. Raka berdiri di ujung dermaga dengan ransel di punggungnya. Di tangannya tergenggam surat pengumuman beasiswa dari sebuah universitas di Bandung. Burung-burung walet terbang rendah di atas permukaan air yang keruh. Surat itu belum ia perlihatkan kepada siapa pun.\n\nDari kejauhan, terdengar bunyi mesin perahu tua milik ayahnya. Raka teringat sore sepuluh tahun lalu. Saat itu ia masih kecil dan takut air. Ayah memegang kedua bahunya, lalu berkata tanpa senyum, “Sungai tidak akan menelan orang yang menghormatinya.” Kalimat itu terdengar keras, tetapi malam harinya Ayah diam-diam menjahit pelampung kecil dari kain bekas untuknya. Sejak itu, Raka tidak pernah lagi menolak ikut ayahnya ke sungai.\n\nKini perahu itu merapat. Ayah turun sambil memikul keranjang ikan. Wajahnya basah oleh embun dan keringat. “Kenapa belum berangkat sekolah?” tanyanya datar. Raka menelan ludah. Ia ingin menceritakan beasiswa itu, tetapi lidahnya kelu. Selama ini, ayahnya jarang bercerita tentang kerja kerasnya. Ia tahu perahu itu satu-satunya sumber nafkah keluarga. Jika ia pergi, siapa yang akan membantu Ayah menarik jala setiap subuh?\n\nAyah menatap surat di tangan anaknya. Matanya berhenti pada gambar menara kampus di kop surat. Ayah menarik napas panjang, seperti hendak mengatakan sesuatu yang berat. Lama ia terdiam, hanya terdengar air menepuk lambung perahu. Kemudian ia meletakkan keranjangnya dan mengusap tangan pada celananya yang lusuh.\n\n“Perahu ini sudah tua,” katanya akhirnya. “Tapi ia bertahan karena tidak pernah dipaksa berlayar di tempat yang salah.”\n\nRaka belum mengerti maksud ucapan itu. Ia hanya melihat Ayah berbalik menatap sungai, dan bahunya tampak lebih rendah daripada biasanya.",
+                    "question": "Watak Ayah yang tergambar dari kutipan “Kalimat itu terdengar keras, tetapi malam harinya Ayah diam-diam menjahit pelampung kecil dari kain bekas untuknya” adalah ....",
+                    "options": [
+                        "pemarah dan tidak peduli pada anaknya",
+                        "penakut dan mudah cemas",
+                        "tegas, tetapi menyimpan kasih sayang yang tidak diungkapkan",
+                        "pemalu dan tertutup pada orang asing",
+                        "boros dan mudah menyerah"
+                    ],
+                    "correctAnswer": "C",
+                    "explanation": "Ucapan Ayah keras, tetapi tindakannya diam-diam penuh perhatian: tokoh berkarakter bulat."
+                },
+                {
+                    "id": 18,
+                    "type": "PG",
+                    "difficulty": "hard",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menyimpulkan konflik dalam teks",
+                    "passageTitle": "Perahu Ayah (cerita pendek)",
+                    "passage": "Pagi itu kabut menutupi Sungai Batanghari seperti selimut tipis. Udara terasa dingin dan berbau lumpur. Raka berdiri di ujung dermaga dengan ransel di punggungnya. Di tangannya tergenggam surat pengumuman beasiswa dari sebuah universitas di Bandung. Burung-burung walet terbang rendah di atas permukaan air yang keruh. Surat itu belum ia perlihatkan kepada siapa pun.\n\nDari kejauhan, terdengar bunyi mesin perahu tua milik ayahnya. Raka teringat sore sepuluh tahun lalu. Saat itu ia masih kecil dan takut air. Ayah memegang kedua bahunya, lalu berkata tanpa senyum, “Sungai tidak akan menelan orang yang menghormatinya.” Kalimat itu terdengar keras, tetapi malam harinya Ayah diam-diam menjahit pelampung kecil dari kain bekas untuknya. Sejak itu, Raka tidak pernah lagi menolak ikut ayahnya ke sungai.\n\nKini perahu itu merapat. Ayah turun sambil memikul keranjang ikan. Wajahnya basah oleh embun dan keringat. “Kenapa belum berangkat sekolah?” tanyanya datar. Raka menelan ludah. Ia ingin menceritakan beasiswa itu, tetapi lidahnya kelu. Selama ini, ayahnya jarang bercerita tentang kerja kerasnya. Ia tahu perahu itu satu-satunya sumber nafkah keluarga. Jika ia pergi, siapa yang akan membantu Ayah menarik jala setiap subuh?\n\nAyah menatap surat di tangan anaknya. Matanya berhenti pada gambar menara kampus di kop surat. Ayah menarik napas panjang, seperti hendak mengatakan sesuatu yang berat. Lama ia terdiam, hanya terdengar air menepuk lambung perahu. Kemudian ia meletakkan keranjangnya dan mengusap tangan pada celananya yang lusuh.\n\n“Perahu ini sudah tua,” katanya akhirnya. “Tapi ia bertahan karena tidak pernah dipaksa berlayar di tempat yang salah.”\n\nRaka belum mengerti maksud ucapan itu. Ia hanya melihat Ayah berbalik menatap sungai, dan bahunya tampak lebih rendah daripada biasanya.",
+                    "question": "Konflik batin yang dialami Raka dalam cerita adalah ....",
+                    "options": [
+                        "ingin berhenti sekolah agar dapat menjadi nelayan",
+                        "ingin menerima beasiswa, tetapi cemas meninggalkan ayah yang bergantung pada perahunya",
+                        "takut pada sungai sejak masa kecilnya",
+                        "marah karena ayahnya terlambat pulang",
+                        "bingung memilih jurusan di universitas"
+                    ],
+                    "correctAnswer": "B",
+                    "explanation": "Raka tahu perahu adalah sumber nafkah keluarga dan bertanya siapa yang akan membantu Ayah jika ia pergi."
+                },
+                {
+                    "id": 19,
+                    "type": "MCMA",
+                    "difficulty": "hard",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai ketepatan bagian teks untuk menggambarkan karakter dalam teks fiksi",
+                    "passageTitle": "Perahu Ayah (cerita pendek)",
+                    "passage": "Pagi itu kabut menutupi Sungai Batanghari seperti selimut tipis. Udara terasa dingin dan berbau lumpur. Raka berdiri di ujung dermaga dengan ransel di punggungnya. Di tangannya tergenggam surat pengumuman beasiswa dari sebuah universitas di Bandung. Burung-burung walet terbang rendah di atas permukaan air yang keruh. Surat itu belum ia perlihatkan kepada siapa pun.\n\nDari kejauhan, terdengar bunyi mesin perahu tua milik ayahnya. Raka teringat sore sepuluh tahun lalu. Saat itu ia masih kecil dan takut air. Ayah memegang kedua bahunya, lalu berkata tanpa senyum, “Sungai tidak akan menelan orang yang menghormatinya.” Kalimat itu terdengar keras, tetapi malam harinya Ayah diam-diam menjahit pelampung kecil dari kain bekas untuknya. Sejak itu, Raka tidak pernah lagi menolak ikut ayahnya ke sungai.\n\nKini perahu itu merapat. Ayah turun sambil memikul keranjang ikan. Wajahnya basah oleh embun dan keringat. “Kenapa belum berangkat sekolah?” tanyanya datar. Raka menelan ludah. Ia ingin menceritakan beasiswa itu, tetapi lidahnya kelu. Selama ini, ayahnya jarang bercerita tentang kerja kerasnya. Ia tahu perahu itu satu-satunya sumber nafkah keluarga. Jika ia pergi, siapa yang akan membantu Ayah menarik jala setiap subuh?\n\nAyah menatap surat di tangan anaknya. Matanya berhenti pada gambar menara kampus di kop surat. Ayah menarik napas panjang, seperti hendak mengatakan sesuatu yang berat. Lama ia terdiam, hanya terdengar air menepuk lambung perahu. Kemudian ia meletakkan keranjangnya dan mengusap tangan pada celananya yang lusuh.\n\n“Perahu ini sudah tua,” katanya akhirnya. “Tapi ia bertahan karena tidak pernah dipaksa berlayar di tempat yang salah.”\n\nRaka belum mengerti maksud ucapan itu. Ia hanya melihat Ayah berbalik menatap sungai, dan bahunya tampak lebih rendah daripada biasanya.",
+                    "question": "Pilih DUA kutipan yang paling tepat menggambarkan keraguan Raka!",
+                    "options": [
+                        "Raka berdiri di ujung dermaga dengan ransel di punggungnya.",
+                        "Dari kejauhan, terdengar bunyi mesin perahu tua milik ayahnya.",
+                        "Ia ingin menceritakan beasiswa itu, tetapi lidahnya kelu.",
+                        "Surat itu belum ia perlihatkan kepada siapa pun.",
+                        "Ayah turun sambil memikul keranjang ikan."
+                    ],
+                    "correctAnswers": [
+                        "C",
+                        "D"
+                    ],
+                    "explanation": "“Lidahnya kelu” dan surat yang disembunyikan menunjukkan Raka ragu untuk berterus terang."
+                },
+                {
+                    "id": 20,
+                    "type": "KAT",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Memprediksi akhir cerita berdasarkan bagian tertentu teks",
+                    "passageTitle": "Perahu Ayah (cerita pendek)",
+                    "passage": "Pagi itu kabut menutupi Sungai Batanghari seperti selimut tipis. Udara terasa dingin dan berbau lumpur. Raka berdiri di ujung dermaga dengan ransel di punggungnya. Di tangannya tergenggam surat pengumuman beasiswa dari sebuah universitas di Bandung. Burung-burung walet terbang rendah di atas permukaan air yang keruh. Surat itu belum ia perlihatkan kepada siapa pun.\n\nDari kejauhan, terdengar bunyi mesin perahu tua milik ayahnya. Raka teringat sore sepuluh tahun lalu. Saat itu ia masih kecil dan takut air. Ayah memegang kedua bahunya, lalu berkata tanpa senyum, “Sungai tidak akan menelan orang yang menghormatinya.” Kalimat itu terdengar keras, tetapi malam harinya Ayah diam-diam menjahit pelampung kecil dari kain bekas untuknya. Sejak itu, Raka tidak pernah lagi menolak ikut ayahnya ke sungai.\n\nKini perahu itu merapat. Ayah turun sambil memikul keranjang ikan. Wajahnya basah oleh embun dan keringat. “Kenapa belum berangkat sekolah?” tanyanya datar. Raka menelan ludah. Ia ingin menceritakan beasiswa itu, tetapi lidahnya kelu. Selama ini, ayahnya jarang bercerita tentang kerja kerasnya. Ia tahu perahu itu satu-satunya sumber nafkah keluarga. Jika ia pergi, siapa yang akan membantu Ayah menarik jala setiap subuh?\n\nAyah menatap surat di tangan anaknya. Matanya berhenti pada gambar menara kampus di kop surat. Ayah menarik napas panjang, seperti hendak mengatakan sesuatu yang berat. Lama ia terdiam, hanya terdengar air menepuk lambung perahu. Kemudian ia meletakkan keranjangnya dan mengusap tangan pada celananya yang lusuh.\n\n“Perahu ini sudah tua,” katanya akhirnya. “Tapi ia bertahan karena tidak pernah dipaksa berlayar di tempat yang salah.”\n\nRaka belum mengerti maksud ucapan itu. Ia hanya melihat Ayah berbalik menatap sungai, dan bahunya tampak lebih rendah daripada biasanya.",
+                    "question": "Tentukan apakah setiap pernyataan berikut BENAR atau SALAH berdasarkan cerita!",
+                    "statements": [
+                        {
+                            "text": "Cerita memakai alur campuran karena terdapat kilas balik ke masa kecil Raka.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Ayah menolak rencana beasiswa Raka secara terang-terangan.",
+                            "answer": false
+                        },
+                        {
+                            "text": "Cerita berakhir dengan keputusan pasti bahwa Raka berangkat ke Bandung.",
+                            "answer": false
+                        },
+                        {
+                            "text": "Ucapan Ayah tentang perahu tua dapat dimaknai bahwa Raka perlu menempuh jalan yang sesuai dengan dirinya.",
+                            "answer": true
+                        }
+                    ],
+                    "labels": [
+                        "Benar",
+                        "Salah"
+                    ],
+                    "explanation": "Cerita berakhir terbuka: Ayah tidak menolak dan Raka belum memutuskan."
+                },
+                {
+                    "id": 21,
+                    "type": "PG",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menentukan makna kosakata serapan bahasa daerah pada teks",
+                    "passageTitle": "Lubuk Larangan, Cara Warga Menjaga Sungai",
+                    "passage": "Di beberapa desa di tepian Sungai Batanghari, terdapat bagian sungai yang disebut lubuk larangan. Lubuk adalah bagian sungai yang dalam dan tenang, tempat ikan banyak berkumpul. Selama waktu yang disepakati warga, tidak seorang pun boleh menangkap ikan di tempat itu.\n\nAturan tersebut biasanya diwariskan melalui seloko, yaitu ungkapan adat yang berisi pesan dan nasihat. Para tetua desa mengingatkan bahwa sungai bukan milik satu orang. Siapa yang melanggar akan dikenai sanksi, misalnya denda sesuai kesepakatan adat atau kewajiban meminta maaf di depan warga.\n\nKonservasi seperti ini terbukti bermanfaat bagi ekosistem sungai. Ikan diberi kesempatan berkembang biak sehingga populasinya tetap terjaga. Pada hari pembukaan lubuk, warga beramai-ramai menangkap ikan dengan alat tradisional. Hasil tangkapan dibagi untuk kepentingan desa, misalnya memperbaiki jembatan dan tempat ibadah.\n\nKini para pemuda desa ikut terlibat. Dengan menumpang ketek, yaitu perahu kecil bermesin, mereka melakukan monitoring secara berkala untuk memastikan tidak ada yang menangkap ikan dengan setrum atau racun. Hasil pemantauan itu dicatat dan dilaporkan kepada kepala desa.\n\nAgar memiliki dasar hukum yang jelas, aturan adat tersebut juga diperkuat dengan regulasi desa. Dengan begitu, kearifan lokal dan aturan modern dapat berjalan beriringan untuk menjaga sungai bagi generasi berikutnya.",
+                    "question": "Kata “seloko” pada paragraf kedua teks tersebut bermakna ....",
+                    "options": [
+                        "bunyi alat musik yang dimainkan saat upacara adat",
+                        "perjanjian dagang antardesa di tepian sungai",
+                        "ungkapan adat yang berisi pesan dan nasihat",
+                        "pertemuan resmi para tetua desa",
+                        "hukuman bagi warga yang melanggar aturan"
+                    ],
+                    "correctAnswer": "C",
+                    "explanation": "Paragraf kedua menjelaskan langsung bahwa seloko adalah ungkapan adat yang berisi pesan dan nasihat; kata ini berasal dari bahasa daerah (Melayu Jambi)."
+                },
+                {
+                    "id": 22,
+                    "type": "PG",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menentukan makna kosakata serapan bahasa asing pada teks",
+                    "passageTitle": "Lubuk Larangan, Cara Warga Menjaga Sungai",
+                    "passage": "Di beberapa desa di tepian Sungai Batanghari, terdapat bagian sungai yang disebut lubuk larangan. Lubuk adalah bagian sungai yang dalam dan tenang, tempat ikan banyak berkumpul. Selama waktu yang disepakati warga, tidak seorang pun boleh menangkap ikan di tempat itu.\n\nAturan tersebut biasanya diwariskan melalui seloko, yaitu ungkapan adat yang berisi pesan dan nasihat. Para tetua desa mengingatkan bahwa sungai bukan milik satu orang. Siapa yang melanggar akan dikenai sanksi, misalnya denda sesuai kesepakatan adat atau kewajiban meminta maaf di depan warga.\n\nKonservasi seperti ini terbukti bermanfaat bagi ekosistem sungai. Ikan diberi kesempatan berkembang biak sehingga populasinya tetap terjaga. Pada hari pembukaan lubuk, warga beramai-ramai menangkap ikan dengan alat tradisional. Hasil tangkapan dibagi untuk kepentingan desa, misalnya memperbaiki jembatan dan tempat ibadah.\n\nKini para pemuda desa ikut terlibat. Dengan menumpang ketek, yaitu perahu kecil bermesin, mereka melakukan monitoring secara berkala untuk memastikan tidak ada yang menangkap ikan dengan setrum atau racun. Hasil pemantauan itu dicatat dan dilaporkan kepada kepala desa.\n\nAgar memiliki dasar hukum yang jelas, aturan adat tersebut juga diperkuat dengan regulasi desa. Dengan begitu, kearifan lokal dan aturan modern dapat berjalan beriringan untuk menjaga sungai bagi generasi berikutnya.",
+                    "question": "Makna kata “konservasi” pada paragraf ketiga teks tersebut adalah ....",
+                    "options": [
+                        "pelestarian dan perlindungan sumber daya alam",
+                        "pemanfaatan sumber daya sungai secara besar-besaran",
+                        "pembangunan sarana di tepi sungai",
+                        "penelitian ilmiah tentang jenis ikan",
+                        "pembagian hasil tangkapan kepada warga"
+                    ],
+                    "correctAnswer": "A",
+                    "explanation": "Konservasi (serapan dari bahasa Inggris conservation) berarti pelestarian. Konteksnya: ikan diberi kesempatan berkembang biak sehingga populasinya terjaga."
+                },
+                {
+                    "id": 23,
+                    "type": "PG",
+                    "difficulty": "hard",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menentukan makna kosakata serapan bahasa asing atau bahasa daerah pada teks",
+                    "passageTitle": "Lubuk Larangan, Cara Warga Menjaga Sungai",
+                    "passage": "Di beberapa desa di tepian Sungai Batanghari, terdapat bagian sungai yang disebut lubuk larangan. Lubuk adalah bagian sungai yang dalam dan tenang, tempat ikan banyak berkumpul. Selama waktu yang disepakati warga, tidak seorang pun boleh menangkap ikan di tempat itu.\n\nAturan tersebut biasanya diwariskan melalui seloko, yaitu ungkapan adat yang berisi pesan dan nasihat. Para tetua desa mengingatkan bahwa sungai bukan milik satu orang. Siapa yang melanggar akan dikenai sanksi, misalnya denda sesuai kesepakatan adat atau kewajiban meminta maaf di depan warga.\n\nKonservasi seperti ini terbukti bermanfaat bagi ekosistem sungai. Ikan diberi kesempatan berkembang biak sehingga populasinya tetap terjaga. Pada hari pembukaan lubuk, warga beramai-ramai menangkap ikan dengan alat tradisional. Hasil tangkapan dibagi untuk kepentingan desa, misalnya memperbaiki jembatan dan tempat ibadah.\n\nKini para pemuda desa ikut terlibat. Dengan menumpang ketek, yaitu perahu kecil bermesin, mereka melakukan monitoring secara berkala untuk memastikan tidak ada yang menangkap ikan dengan setrum atau racun. Hasil pemantauan itu dicatat dan dilaporkan kepada kepala desa.\n\nAgar memiliki dasar hukum yang jelas, aturan adat tersebut juga diperkuat dengan regulasi desa. Dengan begitu, kearifan lokal dan aturan modern dapat berjalan beriringan untuk menjaga sungai bagi generasi berikutnya.",
+                    "question": "Pasangan kata dan maknanya yang tepat berdasarkan teks tersebut adalah ....",
+                    "options": [
+                        "lubuk – bagian sungai yang dangkal; sanksi – hadiah bagi warga yang taat",
+                        "seloko – ungkapan adat; ketek – perahu kecil bermesin",
+                        "konservasi – pemanfaatan sungai secara bebas; regulasi – peraturan",
+                        "ketek – perahu besar milik desa; monitoring – penangkapan ikan",
+                        "populasi – tempat ikan bertelur; ekosistem – hukuman adat"
+                    ],
+                    "correctAnswer": "B",
+                    "explanation": "Hanya pilihan B yang kedua pasangannya benar: seloko = ungkapan adat dan ketek = perahu kecil bermesin (keduanya dijelaskan teks). Pada pilihan lain, setidaknya satu makna keliru."
+                },
+                {
+                    "id": 24,
+                    "type": "PG",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menentukan makna kosakata serapan bahasa asing pada teks",
+                    "passageTitle": "Lubuk Larangan, Cara Warga Menjaga Sungai",
+                    "passage": "Di beberapa desa di tepian Sungai Batanghari, terdapat bagian sungai yang disebut lubuk larangan. Lubuk adalah bagian sungai yang dalam dan tenang, tempat ikan banyak berkumpul. Selama waktu yang disepakati warga, tidak seorang pun boleh menangkap ikan di tempat itu.\n\nAturan tersebut biasanya diwariskan melalui seloko, yaitu ungkapan adat yang berisi pesan dan nasihat. Para tetua desa mengingatkan bahwa sungai bukan milik satu orang. Siapa yang melanggar akan dikenai sanksi, misalnya denda sesuai kesepakatan adat atau kewajiban meminta maaf di depan warga.\n\nKonservasi seperti ini terbukti bermanfaat bagi ekosistem sungai. Ikan diberi kesempatan berkembang biak sehingga populasinya tetap terjaga. Pada hari pembukaan lubuk, warga beramai-ramai menangkap ikan dengan alat tradisional. Hasil tangkapan dibagi untuk kepentingan desa, misalnya memperbaiki jembatan dan tempat ibadah.\n\nKini para pemuda desa ikut terlibat. Dengan menumpang ketek, yaitu perahu kecil bermesin, mereka melakukan monitoring secara berkala untuk memastikan tidak ada yang menangkap ikan dengan setrum atau racun. Hasil pemantauan itu dicatat dan dilaporkan kepada kepala desa.\n\nAgar memiliki dasar hukum yang jelas, aturan adat tersebut juga diperkuat dengan regulasi desa. Dengan begitu, kearifan lokal dan aturan modern dapat berjalan beriringan untuk menjaga sungai bagi generasi berikutnya.",
+                    "question": "Makna kata “sanksi” pada kalimat “Siapa yang melanggar akan dikenai sanksi” adalah ....",
+                    "options": [
+                        "izin tertulis dari kepala desa",
+                        "hadiah bagi warga yang taat aturan",
+                        "pertemuan untuk membahas aturan",
+                        "hukuman atau denda bagi pelanggar aturan",
+                        "pemberitahuan tentang hari pembukaan lubuk"
+                    ],
+                    "correctAnswer": "D",
+                    "explanation": "Kalimat berikutnya memberi contoh sanksi: denda dan kewajiban meminta maaf. Jadi sanksi bermakna hukuman bagi pelanggar aturan."
+                },
+                {
+                    "id": 25,
+                    "type": "MCMA",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menentukan makna kosakata serapan bahasa asing atau bahasa daerah pada teks",
+                    "passageTitle": "Lubuk Larangan, Cara Warga Menjaga Sungai",
+                    "passage": "Di beberapa desa di tepian Sungai Batanghari, terdapat bagian sungai yang disebut lubuk larangan. Lubuk adalah bagian sungai yang dalam dan tenang, tempat ikan banyak berkumpul. Selama waktu yang disepakati warga, tidak seorang pun boleh menangkap ikan di tempat itu.\n\nAturan tersebut biasanya diwariskan melalui seloko, yaitu ungkapan adat yang berisi pesan dan nasihat. Para tetua desa mengingatkan bahwa sungai bukan milik satu orang. Siapa yang melanggar akan dikenai sanksi, misalnya denda sesuai kesepakatan adat atau kewajiban meminta maaf di depan warga.\n\nKonservasi seperti ini terbukti bermanfaat bagi ekosistem sungai. Ikan diberi kesempatan berkembang biak sehingga populasinya tetap terjaga. Pada hari pembukaan lubuk, warga beramai-ramai menangkap ikan dengan alat tradisional. Hasil tangkapan dibagi untuk kepentingan desa, misalnya memperbaiki jembatan dan tempat ibadah.\n\nKini para pemuda desa ikut terlibat. Dengan menumpang ketek, yaitu perahu kecil bermesin, mereka melakukan monitoring secara berkala untuk memastikan tidak ada yang menangkap ikan dengan setrum atau racun. Hasil pemantauan itu dicatat dan dilaporkan kepada kepala desa.\n\nAgar memiliki dasar hukum yang jelas, aturan adat tersebut juga diperkuat dengan regulasi desa. Dengan begitu, kearifan lokal dan aturan modern dapat berjalan beriringan untuk menjaga sungai bagi generasi berikutnya.",
+                    "question": "Pilih DUA pernyataan yang sesuai dengan makna kosakata dalam teks!",
+                    "options": [
+                        "Ekosistem berarti kesatuan makhluk hidup dan lingkungannya yang saling memengaruhi.",
+                        "Populasi berarti ikan yang ditangkap pada hari pembukaan lubuk.",
+                        "Regulasi berarti peraturan yang dibuat agar aturan memiliki dasar hukum.",
+                        "Seloko berarti alat tangkap ikan tradisional.",
+                        "Monitoring berarti kegiatan menangkap ikan secara berkala."
+                    ],
+                    "correctAnswers": [
+                        "A",
+                        "C"
+                    ],
+                    "explanation": "Ekosistem = hubungan timbal balik makhluk hidup dengan lingkungannya; regulasi = peraturan. Populasi adalah jumlah ikan sejenis, seloko adalah ungkapan adat, dan monitoring berarti pemantauan."
+                },
+                {
+                    "id": 26,
+                    "type": "PG",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Inferensial",
+                    "subkompetensi": "Menyimpulkan tujuan penulis",
+                    "passageTitle": "Jeda Tiga Detik Sebelum Membagikan Kabar",
+                    "passage": "Setiap hari, ponsel kita menerima puluhan pesan berantai. Sebagian berisi kabar yang menggemparkan: obat ajaib, bencana yang akan datang, atau tokoh terkenal yang konon melakukan sesuatu. Karena terasa penting, banyak orang langsung membagikannya tanpa berpikir panjang.\n\nKebiasaan itu berbahaya. Banyak orang mengaku pernah membagikan kabar yang kemudian terbukti keliru. Mereka tidak bermaksud menyesatkan siapa pun, tetapi kabar itu telanjur menyebar ke mana-mana.\n\nKabar palsu cepat menyebar karena memancing emosi. Judul yang menakutkan atau memarahkan membuat orang bereaksi lebih dahulu dan memeriksa kemudian. Padahal, kabar yang keliru dapat merugikan banyak pihak, misalnya membuat warga panik atau merusak nama baik seseorang.\n\nKarena itu, kita perlu membiasakan jeda tiga detik sebelum membagikan sebuah kabar. Dalam jeda itu, ajukan tiga pertanyaan: siapa sumbernya, adakah media tepercaya yang memberitakan hal serupa, dan kapan kabar itu pertama kali muncul. Jika salah satunya tidak dapat dijawab, sebaiknya kabar itu tidak disebarkan.\n\nMemang, memeriksa kabar membutuhkan waktu dan tenaga. Namun, usaha kecil itu jauh lebih murah daripada akibat yang ditimbulkan oleh satu kabar bohong. Ibarat menyalakan api, kita bertanggung jawab atas ke mana api itu menjalar.",
+                    "question": "Tujuan utama penulis menulis teks tersebut adalah ....",
+                    "options": [
+                        "menjelaskan cara membuat pesan berantai yang menarik",
+                        "menceritakan pengalaman pribadi penulis tentang kabar palsu",
+                        "mengajak pembaca memeriksa kabar sebelum membagikannya",
+                        "memperkenalkan aplikasi pendeteksi kabar palsu",
+                        "mengkritik media yang sering memberitakan kabar bohong"
+                    ],
+                    "correctAnswer": "C",
+                    "explanation": "Penulis mengajak pembaca membiasakan jeda tiga detik dan memeriksa kabar sebelum menyebarkannya."
+                },
+                {
+                    "id": 27,
+                    "type": "PG",
+                    "difficulty": "medium",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Menentukan hubungan sebab-akibat dalam teks",
+                    "passageTitle": "Jeda Tiga Detik Sebelum Membagikan Kabar",
+                    "passage": "Setiap hari, ponsel kita menerima puluhan pesan berantai. Sebagian berisi kabar yang menggemparkan: obat ajaib, bencana yang akan datang, atau tokoh terkenal yang konon melakukan sesuatu. Karena terasa penting, banyak orang langsung membagikannya tanpa berpikir panjang.\n\nKebiasaan itu berbahaya. Banyak orang mengaku pernah membagikan kabar yang kemudian terbukti keliru. Mereka tidak bermaksud menyesatkan siapa pun, tetapi kabar itu telanjur menyebar ke mana-mana.\n\nKabar palsu cepat menyebar karena memancing emosi. Judul yang menakutkan atau memarahkan membuat orang bereaksi lebih dahulu dan memeriksa kemudian. Padahal, kabar yang keliru dapat merugikan banyak pihak, misalnya membuat warga panik atau merusak nama baik seseorang.\n\nKarena itu, kita perlu membiasakan jeda tiga detik sebelum membagikan sebuah kabar. Dalam jeda itu, ajukan tiga pertanyaan: siapa sumbernya, adakah media tepercaya yang memberitakan hal serupa, dan kapan kabar itu pertama kali muncul. Jika salah satunya tidak dapat dijawab, sebaiknya kabar itu tidak disebarkan.\n\nMemang, memeriksa kabar membutuhkan waktu dan tenaga. Namun, usaha kecil itu jauh lebih murah daripada akibat yang ditimbulkan oleh satu kabar bohong. Ibarat menyalakan api, kita bertanggung jawab atas ke mana api itu menjalar.",
+                    "question": "Berdasarkan paragraf ketiga, penyebab kabar palsu cepat menyebar adalah ....",
+                    "options": [
+                        "kabar itu selalu ditulis oleh tokoh terkenal",
+                        "judulnya memancing emosi sehingga orang bereaksi sebelum memeriksa",
+                        "jumlah pengguna ponsel bertambah setiap hari",
+                        "media tepercaya sering memberitakan kabar tersebut",
+                        "pembaca sengaja ingin menyesatkan orang lain"
+                    ],
+                    "correctAnswer": "B",
+                    "explanation": "Paragraf ketiga menyatakan kabar palsu cepat menyebar karena memancing emosi, sehingga orang bereaksi lebih dahulu dan memeriksa kemudian."
+                },
+                {
+                    "id": 28,
+                    "type": "PG",
+                    "difficulty": "hard",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai ketepatan penggunaan bahasa dalam teks",
+                    "passageTitle": "Jeda Tiga Detik Sebelum Membagikan Kabar",
+                    "passage": "Setiap hari, ponsel kita menerima puluhan pesan berantai. Sebagian berisi kabar yang menggemparkan: obat ajaib, bencana yang akan datang, atau tokoh terkenal yang konon melakukan sesuatu. Karena terasa penting, banyak orang langsung membagikannya tanpa berpikir panjang.\n\nKebiasaan itu berbahaya. Banyak orang mengaku pernah membagikan kabar yang kemudian terbukti keliru. Mereka tidak bermaksud menyesatkan siapa pun, tetapi kabar itu telanjur menyebar ke mana-mana.\n\nKabar palsu cepat menyebar karena memancing emosi. Judul yang menakutkan atau memarahkan membuat orang bereaksi lebih dahulu dan memeriksa kemudian. Padahal, kabar yang keliru dapat merugikan banyak pihak, misalnya membuat warga panik atau merusak nama baik seseorang.\n\nKarena itu, kita perlu membiasakan jeda tiga detik sebelum membagikan sebuah kabar. Dalam jeda itu, ajukan tiga pertanyaan: siapa sumbernya, adakah media tepercaya yang memberitakan hal serupa, dan kapan kabar itu pertama kali muncul. Jika salah satunya tidak dapat dijawab, sebaiknya kabar itu tidak disebarkan.\n\nMemang, memeriksa kabar membutuhkan waktu dan tenaga. Namun, usaha kecil itu jauh lebih murah daripada akibat yang ditimbulkan oleh satu kabar bohong. Ibarat menyalakan api, kita bertanggung jawab atas ke mana api itu menjalar.",
+                    "question": "Kalimat “Ibarat menyalakan api, kita bertanggung jawab atas ke mana api itu menjalar” berfungsi untuk ....",
+                    "options": [
+                        "memberi contoh nyata kebakaran akibat kabar palsu",
+                        "menunjukkan bahwa kabar palsu selalu berasal dari api",
+                        "menjelaskan langkah-langkah memeriksa kabar",
+                        "mengulang kalimat pertama paragraf sebelumnya",
+                        "menegaskan bahwa penyebar kabar ikut bertanggung jawab atas dampaknya"
+                    ],
+                    "correctAnswer": "E",
+                    "explanation": "Kalimat itu berupa perumpamaan: menyebarkan kabar seperti menyalakan api, sehingga penyebarnya ikut bertanggung jawab atas dampaknya."
+                },
+                {
+                    "id": 29,
+                    "type": "MCMA",
+                    "difficulty": "easy",
+                    "kompetensi": "Pemahaman Kontekstual",
+                    "subkompetensi": "Mengidentifikasi informasi dalam teks",
+                    "passageTitle": "Jeda Tiga Detik Sebelum Membagikan Kabar",
+                    "passage": "Setiap hari, ponsel kita menerima puluhan pesan berantai. Sebagian berisi kabar yang menggemparkan: obat ajaib, bencana yang akan datang, atau tokoh terkenal yang konon melakukan sesuatu. Karena terasa penting, banyak orang langsung membagikannya tanpa berpikir panjang.\n\nKebiasaan itu berbahaya. Banyak orang mengaku pernah membagikan kabar yang kemudian terbukti keliru. Mereka tidak bermaksud menyesatkan siapa pun, tetapi kabar itu telanjur menyebar ke mana-mana.\n\nKabar palsu cepat menyebar karena memancing emosi. Judul yang menakutkan atau memarahkan membuat orang bereaksi lebih dahulu dan memeriksa kemudian. Padahal, kabar yang keliru dapat merugikan banyak pihak, misalnya membuat warga panik atau merusak nama baik seseorang.\n\nKarena itu, kita perlu membiasakan jeda tiga detik sebelum membagikan sebuah kabar. Dalam jeda itu, ajukan tiga pertanyaan: siapa sumbernya, adakah media tepercaya yang memberitakan hal serupa, dan kapan kabar itu pertama kali muncul. Jika salah satunya tidak dapat dijawab, sebaiknya kabar itu tidak disebarkan.\n\nMemang, memeriksa kabar membutuhkan waktu dan tenaga. Namun, usaha kecil itu jauh lebih murah daripada akibat yang ditimbulkan oleh satu kabar bohong. Ibarat menyalakan api, kita bertanggung jawab atas ke mana api itu menjalar.",
+                    "question": "Pilih TIGA pertanyaan yang dianjurkan teks untuk diajukan dalam jeda tiga detik!",
+                    "options": [
+                        "Siapa sumber kabar itu?",
+                        "Berapa banyak orang yang sudah membagikannya?",
+                        "Adakah media tepercaya yang memberitakan hal serupa?",
+                        "Kapan kabar itu pertama kali muncul?",
+                        "Apakah judul kabar itu menarik perhatian?"
+                    ],
+                    "correctAnswers": [
+                        "A",
+                        "C",
+                        "D"
+                    ],
+                    "explanation": "Paragraf keempat menyebut tiga pertanyaan: siapa sumbernya, adakah media tepercaya yang memberitakan hal serupa, dan kapan kabar itu pertama kali muncul."
+                },
+                {
+                    "id": 30,
+                    "type": "KAT",
+                    "difficulty": "medium",
+                    "kompetensi": "Evaluasi dan Apresiasi",
+                    "subkompetensi": "Menilai kesesuaian informasi dengan isi teks",
+                    "passageTitle": "Jeda Tiga Detik Sebelum Membagikan Kabar",
+                    "passage": "Setiap hari, ponsel kita menerima puluhan pesan berantai. Sebagian berisi kabar yang menggemparkan: obat ajaib, bencana yang akan datang, atau tokoh terkenal yang konon melakukan sesuatu. Karena terasa penting, banyak orang langsung membagikannya tanpa berpikir panjang.\n\nKebiasaan itu berbahaya. Banyak orang mengaku pernah membagikan kabar yang kemudian terbukti keliru. Mereka tidak bermaksud menyesatkan siapa pun, tetapi kabar itu telanjur menyebar ke mana-mana.\n\nKabar palsu cepat menyebar karena memancing emosi. Judul yang menakutkan atau memarahkan membuat orang bereaksi lebih dahulu dan memeriksa kemudian. Padahal, kabar yang keliru dapat merugikan banyak pihak, misalnya membuat warga panik atau merusak nama baik seseorang.\n\nKarena itu, kita perlu membiasakan jeda tiga detik sebelum membagikan sebuah kabar. Dalam jeda itu, ajukan tiga pertanyaan: siapa sumbernya, adakah media tepercaya yang memberitakan hal serupa, dan kapan kabar itu pertama kali muncul. Jika salah satunya tidak dapat dijawab, sebaiknya kabar itu tidak disebarkan.\n\nMemang, memeriksa kabar membutuhkan waktu dan tenaga. Namun, usaha kecil itu jauh lebih murah daripada akibat yang ditimbulkan oleh satu kabar bohong. Ibarat menyalakan api, kita bertanggung jawab atas ke mana api itu menjalar.",
+                    "question": "Tentukan apakah setiap pernyataan berikut SESUAI atau TIDAK SESUAI dengan isi teks!",
+                    "statements": [
+                        {
+                            "text": "Kabar yang terasa penting dapat dipastikan benar.",
+                            "answer": false
+                        },
+                        {
+                            "text": "Judul yang menakutkan membuat orang cenderung bereaksi sebelum memeriksa kabar.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Jika salah satu pertanyaan pemeriksaan tidak dapat dijawab, kabar sebaiknya tidak disebarkan.",
+                            "answer": true
+                        },
+                        {
+                            "text": "Penulis menyatakan bahwa memeriksa kabar tidak membutuhkan waktu dan tenaga.",
+                            "answer": false
+                        }
+                    ],
+                    "labels": [
+                        "Sesuai",
+                        "Tidak sesuai"
+                    ],
+                    "explanation": "Teks tidak menyatakan kabar penting pasti benar, dan penulis mengakui bahwa memeriksa kabar memang membutuhkan waktu dan tenaga."
+                }
+            ];
+
+        // ==========================================
+        // PENYESUAIAN FORMAT SOAL (passage inline, tipe PG/MCMA/BS, tingkat easy/medium/hard)
+        // ==========================================
+        const TOTAL_Q = questionSet.length;
+        function levelOf(q) {
+            if (q.level) return q.level;
+            return q.difficulty === 'easy' ? 'LOTS' : (q.difficulty === 'medium' ? 'MOTS' : 'HOTS');
+        }
+        const levelCounts = { LOTS: 0, MOTS: 0, HOTS: 0 };
+        questionSet.forEach(q => { levelCounts[levelOf(q)]++; });
+        function isAnswered(a) {
+            if (a === null || a === undefined) return false;
+            if (Array.isArray(a)) return a.some(x => x !== null && x !== undefined);
+            return true;
+        }
+        function isCorrect(q, a) {
+            if (!isAnswered(a)) return false;
+            if (q.type === 'MCMA') {
+                const want = (q.correctAnswers || []).map(l => l.charCodeAt(0) - 65).sort().join(',');
+                return Array.isArray(a) && a.slice().sort().join(',') === want;
+            }
+            if (q.type === 'KAT') {
+                return Array.isArray(a) && q.statements.every((st, i) => a[i] === st.answer);
+            }
+            if (q.type === 'BS') return a === q.correctAnswer;
+            const key = (typeof q.correctAnswer === 'string') ? q.correctAnswer.charCodeAt(0) - 65 : q.correctAnswer;
+            return a === key;
+        }
+        function escHtml(t) {
+            return String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
+        let currentQuestionIndex = 0;
+        let studentAnswers = [];
+        let studentName = '';
+        let studentClass = '';
+        let quizStartTime = null;
+        let timeRemaining = 4500; // 75 menit dalam detik
+        let isQuizActive = false;
+        let tabSwitchCount = 0;
+        let warningModalActive = false; // Flag untuk mencegah multiple modal
+        let strictAntiCheatMode = true; // MODE KECURANGAN KETAT - AKTIF
+        let waNumber = '62852664200910'; // Nomor WhatsApp penerima laporan (format untuk wa.me)
+
+        // ==========================================
+        // KONFIGURASI (silakan ubah di sini)
+        // ==========================================
+        const MAX_WARNINGS = 3;            // Jumlah peringatan. Pelanggaran setelah peringatan terakhir = ujian otomatis selesai.
+        const TEACHER_PIN = 'guru2026';    // PIN untuk reset percobaan (khusus guru). GANTI sebelum dipakai!
+        const SCORE_ENDPOINT = '';         // (Opsional) URL Google Apps Script/Webhook agar nilai terkirim otomatis tanpa WhatsApp.
+        var ATTEMPT_KEY = 'tka_tryout_bi_lanjut_2025_attempt_v1';
+        var quizSubmitted = false;
+        let submitReason = 'manual';       // 'manual' | 'timeup' | 'violation'
+        let violationCount = 0;
+        let lastViolationAt = 0;
+        let quizGraceUntil = 0;            // Jeda singkat setelah mulai (agar proses fullscreen tidak dihitung pelanggaran)
+        let timerInterval = null;
+        let quizEndAt = 0;
+
+        // Satu pintu untuk SEMUA pelanggaran: dihitung sekali, diberi peringatan 1..MAX_WARNINGS
+        function registerViolation(reason) {
+            if (!isQuizActive || quizSubmitted) return;
+            const now = Date.now();
+            if (now < quizGraceUntil) return;
+            if (now - lastViolationAt < 2500) return; // blur + visibilitychange untuk satu kejadian dihitung 1x
+            lastViolationAt = now;
+
+            violationCount++;
+            tabSwitchCount = violationCount;
+            suspiciousActivityCount++;
+            cheatingDetectionLog.push({ time: new Date(), event: reason, count: violationCount });
+
+            if (violationCount > MAX_WARNINGS) {
+                showViolationModal(violationCount, reason, true);
+                setTimeout(() => submitQuiz('violation'), 2500);
+            } else {
+                showViolationModal(violationCount, reason, false);
+            }
+        }
+
+        function showViolationModal(count, reason, finalStop) {
+            const old = document.getElementById('violationModal');
+            if (old) old.remove();
+            const left = MAX_WARNINGS - count;
+            let title, body, btn;
+            if (finalStop) {
+                title = '⛔ Ujian Dihentikan';
+                body = 'Pelanggaran terdeteksi lagi setelah ' + MAX_WARNINGS + ' kali peringatan.\nUjian diselesaikan otomatis dan nilai dikirim.';
+                btn = '';
+            } else {
+                title = '⚠️ Peringatan ' + count + ' dari ' + MAX_WARNINGS;
+                body = reason + '\n\n' + (left > 0
+                    ? 'Sisa peringatan: ' + left + '. Setelah peringatan ke-' + MAX_WARNINGS + ', pelanggaran berikutnya membuat ujian OTOMATIS SELESAI.'
+                    : 'INI PERINGATAN TERAKHIR. Pelanggaran berikutnya membuat ujian OTOMATIS SELESAI.');
+                btn = '<button id="violationOk" style="background:#667eea;color:#fff;border:none;padding:12px 30px;border-radius:8px;font-size:1em;cursor:pointer;">Saya mengerti, lanjutkan ujian</button>';
+            }
+            const m = document.createElement('div');
+            m.id = 'violationModal';
+            m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;justify-content:center;align-items:center;z-index:100000;font-family:Segoe UI,Arial,sans-serif;padding:16px;';
+            const box = document.createElement('div');
+            box.style.cssText = 'background:#fff;padding:28px;border-radius:15px;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3);';
+            const dots = Array.from({length: MAX_WARNINGS}, (_, i) =>
+                '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;margin:0 4px;background:' + (i < count ? '#e74c3c' : '#ddd') + '"></span>').join('');
+            box.innerHTML = '<h2 style="color:#e74c3c;margin:0 0 10px;"></h2><div style="margin-bottom:14px;">' + dots + '</div><p style="color:#333;line-height:1.6;white-space:pre-line;margin:0 0 18px;"></p>' + btn;
+            box.querySelector('h2').textContent = title;
+            box.querySelector('p').textContent = body;
+            m.appendChild(box);
+            document.body.appendChild(m);
+            const ok = document.getElementById('violationOk');
+            if (ok) ok.onclick = () => {
+                m.remove();
+                try { const el = document.documentElement; if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(() => {}); } catch (e) {}
+            };
+        }
+
+        // ==========================================
+        // SISTEM DETEKSI KECURANGAN ADVANCED
+        // ==========================================
+        let cheatingDetectionLog = []; // Log semua aktivitas mencurigakan
+        let deviceOrientationChanges = 0; // Deteksi perubahan orientasi device
+        let networkChangeCount = 0; // Deteksi perubahan koneksi jaringan
+        let suspiciousActivityCount = 0; // Counter aktivitas mencurigakan total
+        let previousVisibility = document.visibilityState;
+
+        // ==========================================
+        // SISTEM SCORING 200-1000 (LOTS, MOTS, HOTS)
+        // ==========================================
+        // LOTS (Lower Order Thinking Skills) = 2 poin per soal
+        // MOTS (Middle Order Thinking Skills) = 3 poin per soal
+        // HOTS (Higher Order Thinking Skills) = 4 poin per soal
+
+        const scoringLevels = {
+            LOTS: { weight: 2, description: 'Pemahaman Dasar' },
+            MOTS: { weight: 3, description: 'Analisis & Interpretasi' },
+            HOTS: { weight: 4, description: 'Evaluasi & Sintesis' }
+        };
+
+        // Catatan: Level soal sudah ditentukan dalam questionSet dengan property 'level'
+
+        // ==========================================
+        // SISTEM ANTI-KECURANGAN BERLAPIS
+        // ==========================================
+
+        // 1. Proteksi Copy-Paste
+        document.addEventListener('copy', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('cut', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('paste', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 2. Proteksi Klik Kanan (Context Menu) & Screenshot
+        document.addEventListener('contextmenu', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Proteksi Print Screen (Strict Mode)
+        document.addEventListener('keydown', (e) => {
+            if (isQuizActive && strictAntiCheatMode) {
+                if (e.key === 'PrintScreen' || e.key === 'Print') {
+                    e.preventDefault();
+                    registerViolation('Terdeteksi mencoba mengambil screenshot (Print Screen).');
+                    return false;
+                }
+            }
+        });
+
+        // Deteksi screenshot via webcam/screen capture API
+        try {
+            if (navigator.mediaDevices && typeof navigator.mediaDevices.addEventListener === 'function' && strictAntiCheatMode) {
+                navigator.mediaDevices.addEventListener('devicechange', () => {
+                    if (isQuizActive) {
+                        cheatingDetectionLog.push({ time: new Date(), event: 'Perubahan perangkat media', count: 0 });
+                    }
+                });
+            }
+        } catch (e) {}
+
+        // 3. Blokir Keyboard Shortcuts Berbahaya (STRICT MODE AKTIF)
+        document.addEventListener('keydown', (e) => {
+            if (!isQuizActive) return;
+
+            let shouldBlock = false;
+            let showMsg = false;
+            let message = '';
+            let violation = false;
+
+            // Shortcuts yang DIBLOKIR DENGAN WARNING
+            if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 PEMBUKAAN TAB BARU TERDETEKSI!\n\nTindakan ini melanggar peraturan ujian dan akan dicatat dalam sistem.';
+                violation = true;
+            } 
+            else if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 PEMBUKAAN WINDOW BARU TERDETEKSI!\n\nTindakan ini melanggar peraturan ujian.';
+                violation = true;
+            } 
+            else if ((e.ctrlKey || e.metaKey) && e.key === 'w') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 PENUTUPAN TAB UJIAN TERDETEKSI!\n\nAnda harus menyelesaikan ujian sampai selesai.';
+                violation = true;
+            }
+            else if (e.key === 'F12') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 DEVELOPER TOOLS TERDETEKSI!\n\nPembukaan Developer Tools tidak diperbolehkan.';
+                violation = true;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'i') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 INSPECTOR TERDETEKSI!\n\nAkses ke Inspector tidak diperbolehkan.';
+                violation = true;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'c') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 ELEMENT PICKER TERDETEKSI!\n\nAkses tidak diperbolehkan.';
+                violation = true;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'j') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 CONSOLE TERDETEKSI!\n\nAkses ke Console tidak diperbolehkan.';
+                violation = true;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'k') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 DEVELOPER TOOLS TERDETEKSI!\n\nPembukaan tidak diperbolehkan.';
+                violation = true;
+            }
+            else if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                shouldBlock = true;
+                showMsg = false;
+            }
+            else if (e.altKey && e.key === 'Tab') {
+                shouldBlock = true;
+                showMsg = true;
+                message = '🚫 BERALIH APLIKASI TERDETEKSI!\n\nAnda harus fokus pada ujian ini.';
+                violation = true;
+            }
+            else if (e.key === 'F11') {
+                shouldBlock = true;
+                showMsg = false;
+            }
+            else if (e.key === 'Escape') {
+                shouldBlock = true;
+                showMsg = false;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                shouldBlock = true;
+                showMsg = false;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                shouldBlock = true;
+                showMsg = false;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.key === 'x') {
+                shouldBlock = true;
+                showMsg = false;
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+                shouldBlock = true;
+                showMsg = false;
+            }
+
+            if (shouldBlock) {
+                e.preventDefault();
+                if (violation && message) {
+                    registerViolation(message.split('\n')[0].replace(/^[^A-Za-z]+/, ''));
+                } else if (showMsg && message) {
+                    showWarning(message);
+                }
+                return false;
+            }
+        });
+
+        // 4. Deteksi pindah tab / pindah aplikasi / jendela kehilangan fokus
+        window.addEventListener('blur', () => {
+            if (!isQuizActive) return;
+            setTimeout(() => {
+                if (isQuizActive && !document.hasFocus()) {
+                    registerViolation('Anda meninggalkan halaman ujian (pindah tab / aplikasi / jendela).');
+                }
+            }, 400);
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (!isQuizActive) return;
+            if (document.visibilityState === 'hidden') {
+                registerViolation('Anda meninggalkan halaman ujian (pindah tab / aplikasi / jendela).');
+            } else {
+                tickTimer(); // sinkronkan timer saat kembali ke halaman
+            }
+        });
+
+        // 5C. DETEKSI ADVANCED: Orientasi Device (Mobile)
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('orientationchange', () => {
+                if (isQuizActive && strictAntiCheatMode) {
+                    deviceOrientationChanges++;
+                    suspiciousActivityCount++;
+                    cheatingDetectionLog.push({
+                        time: new Date(),
+                        event: 'Device orientation changed',
+                        count: deviceOrientationChanges
+                    });
+
+
+                }
+            });
+        }
+
+        // 5D. DETEKSI ADVANCED: Network Status Change
+        window.addEventListener('online', () => {
+            if (isQuizActive) {
+                console.log('Koneksi online dipulihkan');
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            if (isQuizActive) {
+                networkChangeCount++;
+                suspiciousActivityCount++;
+                showWarning('⚠️ KONEKSI INTERNET TERPUTUS!\n\nSegera perbaiki koneksi Anda untuk melanjutkan ujian.');
+            }
+        });
+
+        // 5E. Mouse keluar jendela tidak lagi dihitung pelanggaran (sering salah deteksi).
+
+        // 5F. DETEKSI ADVANCED: Prevent Screen Mirroring (AirPlay, Miracast)
+        try {
+            if (navigator.mediaSession && typeof MediaMetadata !== 'undefined') {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: 'Try Out Ujian - Mode Ketat',
+                    artist: 'SMA IT Nurul Ilmi Jambi',
+                    artwork: []
+                });
+            }
+        } catch (e) { /* iOS/WebView tertentu tidak mendukung */ }
+
+        // 5G. DETEKSI ADVANCED: Screenshare Detection via getDisplayMedia
+try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia && strictAntiCheatMode) {
+            const originalGetDisplayMedia = navigator.mediaDevices.getDisplayMedia;
+            navigator.mediaDevices.getDisplayMedia = function() {
+                if (isQuizActive) {
+                    registerViolation('Terdeteksi mencoba screen sharing.');
+                    return Promise.reject(new Error('Screen sharing disabled during exam'));
+                }
+                return originalGetDisplayMedia.apply(this, arguments);
+            };
+        }
+        } catch (e) {}
+
+        // 6. Proteksi tambahan dari console manipulation
+        // (Lebih subtle dan tidak menyebabkan false positive)
+
+        // 7. Disable drag and drop
+        document.addEventListener('dragstart', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('drag', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('dragend', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 8. Proteksi Selection
+        document.addEventListener('selectstart', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('mousedown', (e) => {
+            if (isQuizActive && e.detail > 1) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 9. Fungsi untuk menampilkan warning (improved)
+        function showWarning(message) {
+            // Cegah multiple modal tampil bersamaan
+            if (warningModalActive) {
+                return;
+            }
+
+            warningModalActive = true;
+
+            // Jangan gunakan alert yang bisa diabaikan, gunakan modal
+            const warningModal = document.createElement('div');
+            warningModal.id = 'warningModal';
+            warningModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 99999;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            `;
+            warningModal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 15px; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+                    <div style="font-size: 3em; margin-bottom: 15px;">⚠️</div>
+                    <h2 style="color: #f44336; margin-bottom: 15px;">Peringatan Ujian</h2>
+                    <p style="color: #333; line-height: 1.6; margin-bottom: 20px; white-space: pre-line;">${message}</p>
+                    <button onclick="document.getElementById('warningModal').remove(); warningModalActive = false;" style="background: #667eea; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;">OK, Mengerti</button>
+                </div>
+            `;
+            document.body.appendChild(warningModal);
+        }
+
+        // 9A. Fungsi untuk menampilkan modal hasil ringkas
+        function showQuickResultModal(scoreData) {
+            const { finalScore, predicate, predicateColor, totalCorrect } = scoreData;
+
+            const quickResultModal = document.createElement('div');
+            quickResultModal.id = 'quickResultModal';
+            quickResultModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 99999;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                animation: fadeIn 0.3s ease-in-out;
+            `;
+
+            quickResultModal.innerHTML = `
+                <div style="background: white; padding: 50px; border-radius: 20px; max-width: 500px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: scaleIn 0.3s ease-out;">
+                    <div style="font-size: 3em; margin-bottom: 20px;">🎉</div>
+                    <h1 style="color: #333; margin-bottom: 10px; font-size: 2em;">Ujian Selesai!</h1>
+                    <p style="color: #666; margin-bottom: 30px; font-size: 1.1em;">Terima kasih telah mengerjakan try out dengan jujur dan sungguh-sungguh.</p>
+
+                    <div style="background: linear-gradient(135deg, ${predicateColor} 0%, ${predicateColor}dd 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                        <p style="margin: 0; font-size: 0.95em; opacity: 0.9;">SKOR ANDA</p>
+                        <h2 style="margin: 15px 0 0 0; font-size: 3em; font-weight: bold;">${finalScore} / 800</h2>
+                        <p style="margin: 15px 0 0 0; font-size: 1.3em; font-weight: bold;">Kategori: ${predicate}</p>
+                    </div>
+
+                    <div style="background: #f0f8ff; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid ${predicateColor};">
+                        <p style="margin: 0; color: #666; font-size: 0.95em;"><strong>Jawaban Benar:</strong> ${totalCorrect} / ${TOTAL_Q} soal</p>
+                        <p style="margin: 10px 0 0 0; color: #666; font-size: 0.95em;"><strong>Jawaban Salah:</strong> ${TOTAL_Q - totalCorrect} / ${TOTAL_Q} soal</p>
+                    </div>
+
+                    <p style="color: #999; font-size: 0.9em; margin: 0;">Hasil lengkap sedang dimuat...</p>
+                </div>
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes scaleIn {
+                        from { 
+                            opacity: 0;
+                            transform: scale(0.9);
+                        }
+                        to { 
+                            opacity: 1;
+                            transform: scale(1);
+                        }
+                    }
+                </style>
+            `;
+
+            document.body.appendChild(quickResultModal);
+
+            // Otomatis hapus modal setelah 3 detik
+            setTimeout(() => {
+                const modal = document.getElementById('quickResultModal');
+                if (modal) {
+                    modal.style.animation = 'fadeIn 0.3s ease-out reverse';
+                    setTimeout(() => modal.remove(), 300);
+                }
+            }, 3000);
+        }
+
+        // 9B. Fungsi untuk menampilkan notifikasi (info/success)
+        function showNotification(message, isSuccess = false) {
+            const notification = document.createElement('div');
+            notification.id = 'notificationModal';
+            notification.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 99998;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            `;
+
+            const bgColor = isSuccess ? '#4caf50' : '#667eea';
+            const icon = isSuccess ? '✅' : '📤';
+
+            notification.innerHTML = `
+                <div style="background: white; padding: 40px; border-radius: 15px; max-width: 450px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); border-top: 5px solid ${bgColor};">
+                    <div style="font-size: 3em; margin-bottom: 15px;">${icon}</div>
+                    <h2 style="color: ${bgColor}; margin-bottom: 15px;">Pengiriman Hasil</h2>
+                    <p style="color: #333; line-height: 1.8; margin-bottom: 20px; white-space: pre-line;">${message}</p>
+                    ${isSuccess ? `<button onclick="document.getElementById('notificationModal').remove();" style="background: ${bgColor}; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;">OK, Terima Kasih</button>` : ''}
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            if (!isSuccess) {
+                setTimeout(() => {
+                    const elem = document.getElementById('notificationModal');
+                    if (elem) elem.remove();
+                }, 3000);
+            }
+        }
+
+        // 10. Proteksi konsol dari manipulation
+        // (Dinonaktifkan untuk menghindari issues - blocking shortcuts sudah cukup)
+
+        // 11. Disable text selection untuk non-form elements
+        document.addEventListener('mouseup', function() {
+            if (isQuizActive) {
+                const selectedText = window.getSelection();
+                if (selectedText.toString().length > 0) {
+                    // Izinkan selection di dalam option/label saja
+                    const selectedElement = selectedText.anchorNode.parentElement;
+                    if (!selectedElement.closest('.option') && !selectedElement.closest('.question-text')) {
+                        selectedText.removeAllRanges();
+                    }
+                }
+            }
+        });
+
+        // 12. Proteksi penutupan window/tab
+        window.addEventListener('beforeunload', (e) => {
+            if (isQuizActive) {
+                e.preventDefault();
+                e.returnValue = 'Anda masih dalam proses ujian. Apakah Anda yakin ingin keluar? Data ujian Anda akan hilang!';
+                return e.returnValue;
+            }
+        });
+
+        // 13. Proteksi unload event
+        window.addEventListener('unload', (e) => {
+            if (isQuizActive) {
+                // Log attempt
+                console.warn('User mencoba keluar dari ujian!');
+            }
+        });
+
+        // ==========================================
+        // PEMBATASAN SATU KALI PENGERJAAN
+        // ==========================================
+
+        function getAttempt() {
+            try {
+                const raw = localStorage.getItem(ATTEMPT_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function saveAttempt(data) {
+            try {
+                localStorage.setItem(ATTEMPT_KEY, JSON.stringify(data));
+            } catch (e) {
+                console.warn('Penyimpanan lokal tidak tersedia');
+            }
+        }
+
+        function markAttemptFinished(scoreData) {
+            const att = getAttempt() || { name: studentName, className: studentClass };
+            att.status = 'finished';
+            att.finishedAt = new Date().toISOString();
+            if (scoreData && typeof scoreData.finalScore !== 'undefined') att.score = scoreData.finalScore;
+            saveAttempt(att);
+        }
+
+        function teacherReset() {
+            const pin = prompt('Masukkan PIN guru untuk mereset percobaan di perangkat ini:');
+            if (pin === null) return;
+            if (pin === TEACHER_PIN) {
+                try { localStorage.removeItem(ATTEMPT_KEY); } catch (e) {}
+                location.reload();
+            } else {
+                alert('PIN salah.');
+            }
+        }
+
+        function showAttemptLocked(att) {
+            const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+            const finished = att && att.status === 'finished';
+            const when = att && (att.finishedAt || att.startedAt)
+                ? new Date(att.finishedAt || att.startedAt).toLocaleString('id-ID') : '-';
+            document.getElementById('biodata-section').innerHTML = `
+                <div style="text-align:center; padding: 30px 10px;">
+                    <div style="font-size: 3.5em; margin-bottom: 15px;">🔒</div>
+                    <h2 style="color:#333; margin-bottom: 15px;">Try Out Sudah Dikerjakan</h2>
+                    <p style="color:#555; line-height:1.7; margin-bottom: 20px;">
+                        Try out ini hanya dapat dikerjakan <strong>satu kali</strong>.<br>
+                        ${finished ? 'Anda sudah menyelesaikan try out ini.' : 'Sesi try out sebelumnya sudah dimulai pada perangkat ini dan tidak dapat diulang.'}
+                    </p>
+                    <div style="display:inline-block; text-align:left; background:#f5f5f5; border-radius:10px; padding:15px 25px; color:#444;">
+                        <div><strong>Nama:</strong> ${esc(att && att.name)}</div>
+                        <div><strong>Kelas:</strong> ${esc(att && att.className)}</div>
+                        <div><strong>${finished ? 'Selesai' : 'Dimulai'}:</strong> ${esc(when)}</div>
+                        ${finished && typeof att.score !== 'undefined' ? '<div><strong>Skor:</strong> ' + esc(att.score) + ' / 800</div>' : ''}
+                    </div>
+                    <p style="color:#888; font-size:0.9em; margin-top:20px;">Hubungi guru/pengawas jika ada kendala.</p>
+                    <button type="button" onclick="teacherReset()" style="margin-top:8px;background:none;border:none;color:#aaa;font-size:0.8em;cursor:pointer;text-decoration:underline;">Reset (khusus guru)</button>
+                </div>`;
+        }
+
+        // Saat halaman dibuka: jika sudah pernah mengerjakan, kunci akses
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter' || isQuizActive) return;
+            const nameEl = document.getElementById('studentName');
+            const classEl = document.getElementById('studentClass');
+            if (!nameEl || !classEl) return;
+            if (document.activeElement === nameEl) { e.preventDefault(); classEl.focus(); }
+            else if (document.activeElement === classEl) { e.preventDefault(); startQuiz(); }
+        });
+
+        (function checkAttemptOnLoad() {
+            const att = getAttempt();
+            if (att) showAttemptLocked(att);
+        })();
+
+        // Timer (berbasis jam nyata, tetap akurat walau tab di background)
+        function renderTimer() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const timerDisplay = document.getElementById('timerDisplay');
+            timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            if (timeRemaining <= 300) {
+                timerDisplay.classList.remove('warning');
+                timerDisplay.classList.add('critical');
+            } else if (timeRemaining <= 900) {
+                timerDisplay.classList.remove('critical');
+                timerDisplay.classList.add('warning');
+            } else {
+                timerDisplay.classList.remove('warning', 'critical');
+            }
+        }
+
+        function tickTimer() {
+            if (!isQuizActive || quizSubmitted) return;
+            timeRemaining = Math.max(0, Math.ceil((quizEndAt - Date.now()) / 1000));
+            renderTimer();
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                const old = document.getElementById('violationModal');
+                if (old) old.remove();
+                submitQuiz('timeup'); // WAKTU HABIS -> otomatis diselesaikan & nilai dikirim
+            }
+        }
+
+        function updateTimer() {
+            quizEndAt = Date.now() + timeRemaining * 1000;
+            clearInterval(timerInterval);
+            tickTimer();
+            timerInterval = setInterval(tickTimer, 500);
+        }
+
+        function startQuiz() {
+            // Cegah klik ganda / mulai ulang saat ujian berjalan
+            if (isQuizActive || quizSubmitted) return;
+            quizGraceUntil = Date.now() + 4000;
+
+            // Hanya boleh satu kali pengerjaan
+            const previousAttempt = getAttempt();
+            if (previousAttempt) {
+                showAttemptLocked(previousAttempt);
+                return;
+            }
+
+            studentName = document.getElementById('studentName').value.trim();
+            studentClass = document.getElementById('studentClass').value.trim();
+
+            if (!studentName || !studentClass) {
+                const err = document.getElementById('startError');
+                if (err) { err.textContent = 'Mohon isi nama lengkap dan kelas terlebih dahulu.'; err.style.display = 'block'; }
+                (!studentName ? document.getElementById('studentName') : document.getElementById('studentClass')).focus();
+                return;
+            }
+
+            // Catat percobaan SEKARANG (bukan saat selesai), agar refresh/tutup tab
+            // di tengah ujian tidak bisa dipakai untuk mengulang.
+            saveAttempt({ name: studentName, className: studentClass, status: 'started', startedAt: new Date().toISOString() });
+
+            // Aktifkan mode ujian
+            isQuizActive = true;
+
+            // Shuffle soal
+            questionSet.sort(() => Math.random() - 0.5);
+
+            // Initialize answers array
+            studentAnswers = new Array(TOTAL_Q).fill(null);
+
+            document.getElementById('biodata-section').classList.remove('active');
+            document.getElementById('quiz-section').classList.add('active');
+
+            renderQuestions();
+            updateTimer();
+
+            // Coba masuk fullscreen (optional)
+            try {
+                const element = document.documentElement;
+                if (element.requestFullscreen) {
+                    const fsp = element.requestFullscreen();
+                    if (fsp && fsp.catch) fsp.catch(() => {});
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if (element.mozRequestFullScreen) {
+                    element.mozRequestFullScreen();
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+            } catch (e) {
+                console.log('Fullscreen tidak tersedia');
+            }
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            const question = questionSet[currentQuestionIndex];
+            const passageContent = question.passage || '';
+            const ans = studentAnswers[currentQuestionIndex];
+
+            let typeLabel = 'Pilihan Ganda';
+            let optionsHtml = '';
+            if (question.type === 'MCMA') {
+                typeLabel = 'Pilihan Ganda Kompleks (lebih dari satu jawaban)';
+                optionsHtml = question.options.map((option, index) => {
+                    const checked = Array.isArray(ans) && ans.includes(index);
+                    return `<label class="option ${checked ? 'selected' : ''}">
+                        <input type="checkbox" value="${index}" ${checked ? 'checked' : ''} onchange="toggleMulti(${index})">
+                        <span>${String.fromCharCode(65 + index)}. ${escHtml(option)}</span>
+                    </label>`;
+                }).join('');
+            } else if (question.type === 'KAT') {
+                typeLabel = 'Pilihan Ganda Kompleks Kategori';
+                const lab = question.labels || ['Benar', 'Salah'];
+                const rows = question.statements.map((st, i) => {
+                    const v = Array.isArray(ans) ? ans[i] : null;
+                    return `<tr style="border-top:1px solid #e3e3e3;">
+                        <td style="padding:10px 8px;line-height:1.5;">${i + 1}. ${escHtml(st.text)}</td>
+                        <td style="padding:10px 8px;text-align:center;"><label style="cursor:pointer;"><input type="radio" name="kat${i}" ${v === true ? 'checked' : ''} onchange="selectKAT(${i}, true)"></label></td>
+                        <td style="padding:10px 8px;text-align:center;"><label style="cursor:pointer;"><input type="radio" name="kat${i}" ${v === false ? 'checked' : ''} onchange="selectKAT(${i}, false)"></label></td>
+                    </tr>`;
+                }).join('');
+                optionsHtml = `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;background:#fff;border-radius:10px;">
+                    <tr style="background:#f1f3ff;"><th style="text-align:left;padding:10px 8px;">Pernyataan</th><th style="padding:10px 8px;width:90px;">${escHtml(lab[0])}</th><th style="padding:10px 8px;width:90px;">${escHtml(lab[1])}</th></tr>${rows}</table></div>`;
+            } else {
+                optionsHtml = question.options.map((option, index) => `
+                    <label class="option ${ans === index ? 'selected' : ''}">
+                        <input type="radio" name="answer" value="${index}" ${ans === index ? 'checked' : ''} onchange="selectAnswer(${index})">
+                        <span>${String.fromCharCode(65 + index)}. ${escHtml(option)}</span>
+                    </label>`).join('');
+            }
+
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-container';
+            questionDiv.innerHTML = `
+                <div class="question-number">Soal ${currentQuestionIndex + 1} dari ${TOTAL_Q} <span style="font-weight:normal;font-size:.8em;color:#888;">&bull; ${typeLabel}</span></div>
+                ${passageContent ? `<div class="passage-label" style="font-weight:600;color:#764ba2;margin:0 0 6px;">📖 Bacalah teks berikut!${question.passageTitle ? ' — ' + escHtml(question.passageTitle) : ''}</div><div class="passage" style="font-style:normal;color:#333;white-space:pre-line;">${escHtml(passageContent)}</div>` : ''}
+                <div class="question-text">${escHtml(question.question)}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+            container.appendChild(questionDiv);
+
+            updateProgressBar();
+            updateNavigator();
+            updateButtons();
+        }
+
+        function selectAnswer(index) {
+            studentAnswers[currentQuestionIndex] = index;
+            renderQuestions();
+        }
+
+        function toggleMulti(index) {
+            let cur = Array.isArray(studentAnswers[currentQuestionIndex]) ? studentAnswers[currentQuestionIndex].slice() : [];
+            const pos = cur.indexOf(index);
+            if (pos >= 0) cur.splice(pos, 1); else cur.push(index);
+            studentAnswers[currentQuestionIndex] = cur.length ? cur : null;
+            renderQuestions();
+        }
+
+        function selectKAT(stIndex, val) {
+            const q = questionSet[currentQuestionIndex];
+            let cur = Array.isArray(studentAnswers[currentQuestionIndex]) ? studentAnswers[currentQuestionIndex].slice() : new Array(q.statements.length).fill(null);
+            cur[stIndex] = val;
+            studentAnswers[currentQuestionIndex] = cur;
+            renderQuestions();
+        }
+
+        function selectBS(val) {
+            studentAnswers[currentQuestionIndex] = val;
+            renderQuestions();
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / TOTAL_Q) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+        }
+
+        function updateNavigator() {
+            const navigator = document.getElementById('questionNavigator');
+            navigator.innerHTML = '';
+            for (let i = 0; i < TOTAL_Q; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'nav-button';
+                btn.textContent = i + 1;
+                if (i === currentQuestionIndex) {
+                    btn.classList.add('active');
+                }
+                if (isAnswered(studentAnswers[i])) {
+                    btn.classList.add('answered');
+                }
+                btn.onclick = () => {
+                    currentQuestionIndex = i;
+                    renderQuestions();
+                };
+                navigator.appendChild(btn);
+            }
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            prevBtn.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+            nextBtn.style.display = currentQuestionIndex < TOTAL_Q - 1 ? 'block' : 'none';
+            submitBtn.style.display = currentQuestionIndex === TOTAL_Q - 1 ? 'block' : 'none';
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestions();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < TOTAL_Q - 1) {
+                currentQuestionIndex++;
+                renderQuestions();
+            }
+        }
+
+        function submitQuiz(reason) {
+            // Cegah submit ganda (timer habis / pelanggaran / klik manual bersamaan)
+            if (quizSubmitted) return;
+            quizSubmitted = true;
+            submitReason = (typeof reason === 'string') ? reason : 'manual';
+            clearInterval(timerInterval);
+            const vm = document.getElementById('violationModal');
+            if (vm) vm.remove();
+
+            // Hitung skor terlebih dahulu
+            const scoreData = calculateScore();
+            markAttemptFinished(scoreData);
+
+            // Matikan mode ujian
+            isQuizActive = false;
+
+            // Keluar dari fullscreen jika ada
+            try {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else if (document.webkitFullscreenElement) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozFullScreenElement) {
+                    document.mozCancelFullScreen();
+                } else if (document.msFullscreenElement) {
+                    document.msExitFullscreen();
+                }
+            } catch (e) {
+                console.log('Exit fullscreen error');
+            }
+
+            // Tampilkan modal hasil ringkas dulu
+            showQuickResultModal(scoreData);
+
+            // Setelah 3 detik, tampilkan halaman hasil lengkap lalu kirim otomatis
+            setTimeout(() => {
+                document.getElementById('quiz-section').classList.remove('active');
+                document.getElementById('results-section').classList.add('active');
+                deliverResult(scoreData);
+            }, 3000);
+
+            // Calculate results dengan sistem LOTS, MOTS, HOTS (200-800)
+            const { finalScore, predicate, predicateColor, totalCorrect, correctLOTS, correctMOTS, correctHOTS } = scoreData;
+            const wrongCount = TOTAL_Q - totalCorrect;
+
+            // Display results
+            document.getElementById('resultName').textContent = studentName;
+            document.getElementById('resultClass').textContent = studentClass;
+            document.getElementById('resultDate').textContent = new Date().toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('scoreDisplay').textContent = `${finalScore} / 800`;
+
+            // Display kategori predikat dengan styling
+            const predicateSection = document.getElementById('predicateSection');
+            predicateSection.style.background = `linear-gradient(135deg, ${predicateColor} 0%, ${predicateColor}dd 100%)`;
+            document.getElementById('predicateDisplay').textContent = predicate;
+
+            // Display range predikat
+            let predicateRange = '';
+            if (predicate === 'BAIK') {
+                predicateRange = '641 - 800';
+            } else if (predicate === 'MEMADAI') {
+                predicateRange = '481 - 640';
+            } else {
+                predicateRange = '200 - 480';
+            }
+            document.getElementById('predicateRangeDisplay').textContent = predicateRange;
+            document.getElementById('correctCount').textContent = totalCorrect;
+            document.getElementById('wrongCount').textContent = wrongCount;
+
+            // Update breakdown LOTS, MOTS, HOTS
+            document.getElementById('lotsCorrect').textContent = correctLOTS;
+            document.getElementById('motsCorrect').textContent = correctMOTS;
+            document.getElementById('hotsCorrect').textContent = correctHOTS;
+
+            // Update progress bars
+            document.getElementById('lotsBar').style.width = (correctLOTS / levelCounts.LOTS) * 100 + '%';
+            document.getElementById('motsBar').style.width = (correctMOTS / levelCounts.MOTS) * 100 + '%';
+            document.getElementById('hotsBar').style.width = (correctHOTS / levelCounts.HOTS) * 100 + '%';
+
+            // Display deteksi kecurangan status
+            document.getElementById('tabSwitchDisplay').textContent = tabSwitchCount + 'x';
+            document.getElementById('orientationDisplay').textContent = deviceOrientationChanges + 'x';
+            document.getElementById('networkDisplay').textContent = networkChangeCount + 'x';
+            document.getElementById('suspiciousActivityDisplay').textContent = suspiciousActivityCount;
+
+            // Tentukan status ujian berdasarkan aktivitas mencurigakan
+            let cheatingStatusText = '✅ Ujian Normal - Tidak Ada Kecurangan Terdeteksi';
+            let cheatingStatusColor = '#4caf50';
+
+            if (suspiciousActivityCount > 10) {
+                cheatingStatusText = '🔴 BANYAK AKTIVITAS MENCURIGAKAN - Nilai Mungkin Dipertanyakan';
+                cheatingStatusColor = '#e74c3c';
+            } else if (suspiciousActivityCount > 5) {
+                cheatingStatusText = '🟡 ADA AKTIVITAS MENCURIGAKAN - Dicatat dalam Sistem';
+                cheatingStatusColor = '#f39c12';
+            } else if (suspiciousActivityCount > 0) {
+                cheatingStatusText = '🟡 SEDIKIT AKTIVITAS MENCURIGAKAN - Dicatat';
+                cheatingStatusColor = '#f39c12';
+            }
+
+            if (submitReason === 'violation') {
+                cheatingStatusText = '🔴 UJIAN DIHENTIKAN OTOMATIS - Melebihi batas peringatan';
+                cheatingStatusColor = '#e74c3c';
+            }
+            document.getElementById('cheatingStatusDisplay').textContent = cheatingStatusText;
+            document.getElementById('cheatingStatusDisplay').style.color = cheatingStatusColor;
+
+            // Display answer review
+
+        }
+
+        function downloadPDF() {
+            const element = document.querySelector('.result-container');
+            const opt = {
+                margin: 10,
+                filename: `Hasil_TryOut_${studentName.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // FUNGSI HITUNG SKOR (200-1000 dengan LOTS, MOTS, HOTS)
+        function calculateScore() {
+            let correctLOTS = 0;
+            let correctMOTS = 0;
+            let correctHOTS = 0;
+            let totalCorrect = 0;
+            const byComp = {};
+
+            questionSet.forEach((question, index) => {
+                const comp = question.kompetensi || 'Lainnya';
+                byComp[comp] = byComp[comp] || { c: 0, t: 0 };
+                byComp[comp].t++;
+                if (isCorrect(question, studentAnswers[index])) {
+                    totalCorrect++;
+                    byComp[comp].c++;
+                    const level = levelOf(question);
+
+                    if (level === 'LOTS') {
+                        correctLOTS++;
+                    } else if (level === 'MOTS') {
+                        correctMOTS++;
+                    } else if (level === 'HOTS') {
+                        correctHOTS++;
+                    }
+                }
+            });
+
+            // Hitung poin berdasarkan weight setiap level
+            // LOTS: 2 poin, MOTS: 3 poin, HOTS: 4 poin
+            const pointsLOTS = correctLOTS * scoringLevels.LOTS.weight;
+            const pointsMOTS = correctMOTS * scoringLevels.MOTS.weight;
+            const pointsHOTS = correctHOTS * scoringLevels.HOTS.weight;
+            const totalPoints = pointsLOTS + pointsMOTS + pointsHOTS;
+
+            // Max poin: (7*2) + (9*3) + (9*4) = 77
+            const maxPoints = (levelCounts.LOTS * scoringLevels.LOTS.weight) + (levelCounts.MOTS * scoringLevels.MOTS.weight) + (levelCounts.HOTS * scoringLevels.HOTS.weight);
+
+            // Konversi ke skala 200-800 (Menyesuaikan Tingkat Kesulitan)
+            const finalScore = Math.round(200 + (totalPoints / maxPoints) * 600);
+
+            // Tentukan kategori predikat berdasarkan skor
+            let predicate = '';
+            let predicateColor = '';
+            if (finalScore >= 641) {
+                predicate = 'BAIK';
+                predicateColor = '#27ae60'; // Hijau
+            } else if (finalScore >= 481) {
+                predicate = 'MEMADAI';
+                predicateColor = '#f39c12'; // Oranye
+            } else {
+                predicate = 'KURANG';
+                predicateColor = '#e74c3c'; // Merah
+            }
+
+            return {
+                finalScore: finalScore,
+                predicate: predicate,
+                predicateColor: predicateColor,
+                totalCorrect: totalCorrect,
+                correctLOTS: correctLOTS,
+                correctMOTS: correctMOTS,
+                correctHOTS: correctHOTS,
+                pointsLOTS: pointsLOTS,
+                pointsMOTS: pointsMOTS,
+                pointsHOTS: pointsHOTS,
+                totalPoints: totalPoints,
+                maxPoints: maxPoints,
+                byComp: byComp
+            };
+        }
+
+        // FUNGSI AUTO-SEND HASIL KE WHATSAPP (TRIGGERED OTOMATIS SAAT SUBMIT)
+        function sendResultToWhatsApp() {
+            // Hitung hasil ujian dengan sistem LOTS, MOTS, HOTS
+            const scoreData = calculateScore();
+            const { finalScore, predicate, totalCorrect, correctLOTS, correctMOTS, correctHOTS } = scoreData;
+            const wrongCount = TOTAL_Q - totalCorrect;
+            const predicateRange = predicate === 'BAIK' ? '641 - 800' : (predicate === 'MEMADAI' ? '481 - 640' : '200 - 480');
+            const submitReasonText = submitReason === 'timeup' ? 'Waktu habis (otomatis)'
+                : (submitReason === 'violation' ? 'Dihentikan otomatis karena pelanggaran' : 'Diselesaikan peserta');
+            const compLines = Object.entries(scoreData.byComp || {}).map(([n, v]) => '   • ' + n + ': ' + v.c + '/' + v.t).join('\n');
+            const currentDate = new Date().toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Buat status deteksi kecurangan
+            let cheatingStatus = '✅ Ujian Normal';
+            if (suspiciousActivityCount > 5) {
+                cheatingStatus = '⚠️ Banyak Aktivitas Mencurigakan';
+            } else if (suspiciousActivityCount > 0) {
+                cheatingStatus = '⚠️ Ada Aktivitas Mencurigakan';
+            }
+
+            // Format pesan hasil ujian dengan sistem LOTS, MOTS, HOTS + Deteksi Kecurangan
+            const resultMessage = `📋 *HASIL TRY OUT TKA 2026 SMAIT Nurul Ilmi Jambi*
+📚 *Bahasa Indonesia Wajib*
+
+👤 *Data Peserta:*
+   Nama: ${studentName}
+   Kelas: ${studentClass}
+
+📅 *Tanggal Pelaksanaan:*
+   ${currentDate}
+
+🎯 *SKOR AKHIR: ${finalScore}/800* ✨
+📌 *Kategori Predikat: ${predicate}*
+   Range: ${predicateRange}
+
+📊 *Breakdown Jawaban:*
+   ✓ Total Benar: ${totalCorrect}/${TOTAL_Q}
+   ✗ Total Salah: ${wrongCount}/${TOTAL_Q}
+
+📈 *Analisis Berdasarkan Level:*
+
+   📚 LOTS (Pemahaman Dasar):
+      Benar: ${correctLOTS}/${levelCounts.LOTS} soal
+      Poin: ${scoreData.pointsLOTS}/${levelCounts.LOTS * scoringLevels.LOTS.weight}
+
+   🎓 MOTS (Analisis & Interpretasi):
+      Benar: ${correctMOTS}/${levelCounts.MOTS} soal
+      Poin: ${scoreData.pointsMOTS}/${levelCounts.MOTS * scoringLevels.MOTS.weight}
+
+   🔬 HOTS (Evaluasi & Sintesis):
+      Benar: ${correctHOTS}/${levelCounts.HOTS} soal
+      Poin: ${scoreData.pointsHOTS}/${levelCounts.HOTS * scoringLevels.HOTS.weight}
+
+📘 *Analisis Per Kompetensi (Kisi-kisi TKA):*
+${compLines}
+🔒 *Deteksi Kecurangan:*
+   Status: ${cheatingStatus}
+   Peringatan/Pelanggaran: ${violationCount}x (batas ${MAX_WARNINGS} peringatan)\n   Status Pengumpulan: ${submitReasonText}
+   Device Orientation: ${deviceOrientationChanges}x
+   Network Changes: ${networkChangeCount}x
+   Total Aktivitas Mencurigakan: ${suspiciousActivityCount}
+
+🏫 *SMA IT Nurul Ilmi Jambi*
+   Penyusun: DENI ELSA, S.Pd., GR.
+
+---
+Platform Try Out TKA Otomatis dengan Deteksi Kecurangan`;
+
+            // Buka WhatsApp dengan pesan hasil ujian
+            const wa_link = `https://wa.me/${waNumber}?text=${encodeURIComponent(resultMessage)}`;
+
+            // Kirim juga ke server/spreadsheet jika SCORE_ENDPOINT diisi (benar-benar otomatis)
+            let endpointOk = false;
+            if (SCORE_ENDPOINT) {
+                try {
+                    const payload = JSON.stringify({
+                        nama: studentName, kelas: studentClass, skor: finalScore, predikat: predicate,
+                        benar: totalCorrect, pelanggaran: violationCount, pengumpulan: submitReasonText,
+                        waktu: new Date().toISOString()
+                    });
+                    fetch(SCORE_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: payload, keepalive: true });
+                    endpointOk = true;
+                } catch (e) { console.warn('Gagal kirim ke endpoint', e); }
+            }
+
+            // Buka WhatsApp (browser bisa memblokir jika bukan dari klik pengguna)
+            let opened = null;
+            try { opened = window.open(wa_link, '_blank'); } catch (e) { opened = null; }
+            return { waOpened: !!opened, endpointOk: endpointOk };
+        }
+
+        // Dipanggil otomatis setelah ujian selesai (manual / waktu habis / pelanggaran)
+        function deliverResult(scoreData) {
+            const reasonText = submitReason === 'timeup' ? '⏰ Waktu habis. Ujian diselesaikan otomatis.'
+                : (submitReason === 'violation' ? '⛔ Ujian dihentikan otomatis karena pelanggaran.' : '✅ Ujian selesai.');
+            let res = { waOpened: false, endpointOk: false };
+            try { res = sendResultToWhatsApp() || res; } catch (e) { console.error(e); }
+
+            const box = document.createElement('div');
+            box.id = 'sendStatusBar';
+            box.style.cssText = 'position:sticky;top:0;z-index:50;margin:0 0 16px;padding:14px 16px;border-radius:10px;text-align:center;line-height:1.6;font-size:.95em;';
+            if (res.endpointOk) {
+                box.style.background = '#e8f7ee'; box.style.color = '#1e7a46';
+                box.textContent = reasonText + ' Nilai Anda sudah terkirim otomatis ke guru.';
+            } else if (res.waOpened) {
+                box.style.background = '#fff6e0'; box.style.color = '#8a5a00';
+                box.textContent = reasonText + ' WhatsApp sudah terbuka — tekan tombol KIRIM di WhatsApp agar nilai sampai ke guru.';
+            } else {
+                box.style.background = '#fdecea'; box.style.color = '#a93226';
+                box.innerHTML = '';
+                const t = document.createElement('div');
+                t.textContent = reasonText + ' Browser memblokir pembukaan WhatsApp otomatis. Tekan tombol di bawah untuk mengirim nilai ke guru:';
+                const b = document.createElement('button');
+                b.textContent = '📤 Kirim Nilai ke WhatsApp Sekarang';
+                b.style.cssText = 'margin-top:10px;background:#25d366;color:#fff;border:none;border-radius:8px;padding:12px 22px;font-size:1em;cursor:pointer;';
+                b.onclick = () => { const r = sendResultToWhatsApp(); if (r && r.waOpened) { box.style.background = '#fff6e0'; box.style.color = '#8a5a00'; box.textContent = 'WhatsApp terbuka — tekan KIRIM di WhatsApp.'; } };
+                box.appendChild(t); box.appendChild(b);
+            }
+            const container = document.querySelector('#results-section .result-container');
+            if (container) container.insertBefore(box, container.firstChild);
+        }
+
+        function shareWhatsApp() {
+            sendResultToWhatsApp();
+        }
+
+        // Proteksi drag dan select
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+            return false;
+        });
+
+        document.body.style.webkitUserSelect = 'none';
+        document.body.style.msUserSelect = 'none';
+    </script>
+</body>
+</html>
